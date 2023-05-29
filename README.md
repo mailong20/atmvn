@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 # fastapi_crud_ui_jinja2
 
 ### Software requirements
@@ -29,6 +27,3 @@ uvicorn main2:app
 # atmvn
 >>>>>>> d5b16dc09c443c66c6303b28e8335607e68bf3b3
 =======
-# fastapi_tum
-This is an operation management system dev based on FastAPI framework
->>>>>>> origin/master
