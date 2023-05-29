@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>List of Floor</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
+  <link href="{{url_for('static', path='/css/flooradmin.css')}}" rel="stylesheet">
+  <link href="{{url_for('static', path='/css/dialogaddfloor.css')}}" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/aa319e5b40.js" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="container text-center">
+      <h1 class="my-5" style="font-family: cursive;">List of Floors - ADMIN</h1>
+    </div>
+    <div class="position-fixed" style="top: 0; right: 0;">
+      <a href="/">
+        <button class="btn btn-transparent text-gray my-3" style="font-family: cursive;"><i
+            class="fas fa-home"></i>HOME</button>
+      </a>
+
+
+    </div>
+    <table id="myTable" class="table table-hover">
+      <thead>
+        <tr>
+          <th>ID CODE</th>
+          <th>NAME</th>
+          <th>IMAGE</th>
+          <th>DESCRIPTION</th>
+          <th>PRICE</th>
+          <th>EDIT</th>
+          <th>DELETE</th>
+        </tr>
+      </thead>
+
+    </table>
+    <button class="btn btn-success" , id="btnaddFloor">Create a new
+      floor</button>
+  </div>
+
+  <!-- <div class="form-container" id="add-floor-dialog" >
+
+    </div> -->
+  <dialog class="form-container" id="add-floor-dialog">
+    <form>
+      <div class="form-container__sign-buttons">
+        <section class="icon-headline" style="display: flex; flex-direction: row; justify-content: space-between;">
+          <div style="display: flex; flex-direction: row;  align-items: center; ">
+            <i class="fa-regular fa-plus " style=" margin-right: 0.5rem;" width="24" height="24"
+              viewBox="0 0 24 24"></i>
+            <h3>New Floor</h3>
+          </div>
+          <button class="close-dialog" id="btn-close-add-floor" type="button" title="Close dialog"
+            style="aspect-ratio: 1 / 1; width: .5rem; display: flex; align-items: center; justify-content: center;">
+            <i style="margin: auto;" class="fa-solid fa-circle-xmark fa-2xl"></i>
+          </button>
+        </section>
+      </div>
+      <div class="form-container__sign-inputs">
+
+        <label>
+          <legend>Floor Name</legend>
+          <input required="" type="text" id="floorName" placeholder="Enter floor name">
+          <span></span>
+        </label>
+        <label>
+          <legend>Floor Image File</legend>
+          <input required="" type="file" id="floorImageFile" accept="image/*">
+          <span></span>
+        </label>
+        <label>
+          <legend>Floor Description</legend>
+          <textarea required="" type="text" id="floorDescription" placeholder="Enter floor description"></textarea>
+        </label>
+        <label>
+          <legend>Floor Price</legend>
+          <input required="*" type="number" id="floorPrice" placeholder="Enter floor price">
+          <span></span>
+        </label>
+
+      </div>
+      <div class="form-container__auth-block">
+        <button class="submit-button" id="submit" type="dialog">
+          Edit Floor
+        </button>
+      </div>
+
+    </form>
+  </dialog>
+  <dialog class="form-container" id="edit-floor-dialog">
+    <form>
+      <div class="form-container__sign-buttons">
+        <section class="icon-headline" style="display: flex; flex-direction: row; justify-content: space-between;">
+          <div style="display: flex; flex-direction: row;  align-items: center; ">
+            <i class="fa-regular fa-plus " style=" margin-right: 0.5rem;" width="24" height="24"
+              viewBox="0 0 24 24"></i>
+            <h3>Edit Floor</h3>
+          </div>
+          <button class="close-dialog" id="btn-close-add-floor" type="button" title="Close dialog"
+            style="aspect-ratio: 1 / 1; width: .5rem; display: flex; align-items: center; justify-content: center;">
+            <i style="margin: auto;" class="fa-solid fa-circle-xmark fa-2xl"></i>
+          </button>
+        </section>
+      </div>
+      <div class="form-container__sign-inputs">
+
+        <label>
+          <legend>Floor Name</legend>
+          <input required="" type="text" id="floorName" placeholder="Enter floor name">
+          <span></span>
+        </label>
+        <label>
+          <legend>Floor Image File</legend>
+          <input required="" type="file" id="floorImageFile" accept="image/*">
+          <span></span>
+        </label>
+        <label>
+          <legend>Floor Description</legend>
+          <textarea required="" type="text" id="floorDescription" placeholder="Enter floor description"></textarea>
+        </label>
+        <label>
+          <legend>Floor Price</legend>
+          <input required="*" type="number" id="floorPrice" placeholder="Enter floor price">
+          <span></span>
+        </label>
+
+      </div>
+      <div class="form-container__auth-block">
+        <button class="submit-button" id="submit" type="dialog">
+          Add Floor
+        </button>
+      </div>
+
+    </form>
+  </dialog>
+
+  <script src="{{url_for('static', path='/js/dialog.js')}}"></script>
+  <script src="{{url_for('static', path='/js/flooradmin.js')}}"></script>
+  <script>
+    check_token();
+    loadTable();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+<html lang="en">
+<<<<<<< HEAD
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+    <!-- Load Bootstrap CSS -->
+    <link href="{{url_for('static', path='/css/login.css')}}" rel="stylesheet">
+    <!-- Custom styles -->
+    <style>
+=======
+<head>
+    <meta charset="UTF-8">
+    <title>@bytum - Login</title>
+    <!-- Load Bootstrap CSS -->
+    <link href="{{ url_for('static', path='/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Custom styles -->
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .card {
+            background-color: #f8f9fa;
+            border: none;
+            border-radius: 10px;
+        }
+        .navbar {
+            background-color: #f8f9fa;
+        }
+        .btn-primary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-primary:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+        .lead {
+            color: #6c757d;
+        }
+        h1 {
+            color: #6c757d;
+        }
+>>>>>>> origin/master
+    </style>
+</head>
+
+<body>
+<<<<<<< HEAD
+    <div class="form-container">
+        <span class="form-container__title">Sign in</span>
+        <form>
+            <div class="form-container__sign-buttons">
+
+                <button type="button">
+                    <svg width="16" height="16">
+                        <g fill="none">
+                            <path
+                                d="M2.629 10.659A5.893 5.893 0 0 1 2 8c0-.956.226-1.858.629-2.659l2.065 1.544a3.487 3.487 0 0 0 0 2.23L2.629 10.66z"
+                                fill="#FBBC05"></path>
+                            <path
+                                d="M2.629 5.341C3.627 3.357 5.713 2 8.139 2c1.563 0 2.959.573 4.047 1.5L10.4 5.245a3.6 3.6 0 0 0-2.26-.79c-1.61 0-2.97 1.015-3.446 2.43L2.629 5.34z"
+                                fill="#EA4335"></path>
+                            <path
+                                d="M2.628 10.657L4.692 9.11c.475 1.417 1.835 2.435 3.448 2.435 1.702 0 2.986-.845 3.293-2.318H8.14V6.91h5.72c.084.355.14.736.14 1.091 0 3.818-2.79 6-5.86 6-2.427 0-4.514-1.358-5.512-3.343z"
+                                fill="#34A853"></path>
+                            <path
+                                d="M12.141 12.506l-1.96-1.483a2.704 2.704 0 0 0 1.252-1.796H8.14V6.91h5.72c.084.355.14.736.14 1.091 0 1.956-.732 3.482-1.859 4.506z"
+                                fill="#4285F4"></path>
+                        </g>
+                    </svg>
+                    <span>Sign in with Google</span>
+                </button>
+            </div>
+            <div class="form-container__sign-inputs">
+                <label>
+                    <legend>Email</legend>
+                    <input required="" id="userEmail" placeholder="Input with email validation">
+                    <span></span>
+                </label>
+                <label>
+                    <legend>Password</legend>
+                    <input id="userPass" type="password" placeholder="Input with password validation">
+                    <span></span>
+                </label>
+                <button class="submit-button" id="submit" type="submit">
+                    Login
+                </button>
+            </div>
+            <div class="form-container__auth-block">
+                <span>Don't have an account? Signup <a href="#">here</a></span>
+            </div>
+        </form>
+    </div>
+    <script src="{{url_for('static', path='/js/login.js')}}">
+        check_token();
+    </script>
+</body>
+
+</html>
+=======
+<nav class="navbar navbar-expand-md navbar-light mb-5">
+    <div class="container-fluid justify-content-end">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000/">Home</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <div class="login-brand">
+                        <img src="https://via.placeholder.com/50.png?text=LOGO" alt="Logo">
+                        <h1 class="h3 mb-3 fw-normal">Login</h1>
+                    </div>
+                    <form method="post" action="/login">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="inputEmail" name="email" placeholder="name@example.com" required>
+                            <label for="inputEmail">Email address</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password" required>
+                            <label for="inputPassword">Password</label>
+                        </div>
+                        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Sign in</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Load Bootstrap JS (make sure it's placed after the jQuery library) -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+>>>>>>> origin/master
