@@ -41,31 +41,23 @@ async function editFloor(editDialogId) {
 
     var myHeaders = new Headers();
     myHeaders.append("accept", "application/json");
-    myHeaders.append('Authorization', localStorage.getItem('Authorization'));
+    myHeaders.append("Content-Type", "application/json");
 
-    var formdata = new FormData();
-    // formdata.append("floor_image", fileInput.files[0], "/path/to/file");
+    var raw = JSON.stringify({
+    "floor_name": floorName,
+    "floor_image": floorImgSrc,
+    "floor_description": floorDescription,
+    "floor_price": floorPrice
+    });
 
-
-    if (floorImgSrc.startsWith('http')) {
-        const floorImageSrc = await urlToFile(floorImgSrc);
-        formdata.append('floor_image', floorImageSrc);
-        console.log(floorImageSrc)
-    }
-    else{
-        const floorImageSrc = base64ToFile(floorImgSrc);
-        formdata.append('floor_image', floorImageSrc);
-        console.log(floorImageSrc)
-    }
     var requestOptions = {
-        method: 'PUT',
-        headers: myHeaders,
-        body: formdata,
-        redirect: 'follow'
-        };
-    
-    const updateFloor = await fetch(`/api/floors/?floor_id=${floorId}&floor_name=${floorName}&floor_description=${floorDescription}&floor_price=${floorPrice}`, 
-        requestOptions)
+    method: 'PUT',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+    };
+
+    const updateFloor = await fetch(`http://${host}/api/floors/?floor_id=${floorId}`, requestOptions)
     
     if (updateFloor.status === 202) {
         generateMessage('success', `Bạn đã thay đổi  floor ${floorId} thành công!`);

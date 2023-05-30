@@ -85,17 +85,16 @@ def delete_floor(
 @router.put("/", status_code=status.HTTP_202_ACCEPTED)
 def update_floor(
     floor_id: str,
-    floor_name: str,
-    floor_description: str,
-    floor_price: float,
-    floor_image: Optional[UploadFile] = File(...),
+    # floor_name: str,
+    # floor_description: str,
+    # floor_price: float,
+    # floor_image: Optional[UploadFile] = File(...),
+    request: schemas.Floor,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user),
+    # current_user: schemas.User = Depends(get_current_user),
 ):
-    request = models.Floor(floor_id=floor_id, floor_name=floor_name, floor_image='',
-                           floor_description=floor_description, floor_price=floor_price)
-
-    return floor.update(request, floor_image, db)
+   
+    return floor.update(request, floor_id, db)
 
 
 @router.get("/image/{floor_image_name}")

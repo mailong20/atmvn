@@ -6,8 +6,8 @@ from typing import Optional
 import uuid
 import os
 from pathlib import Path
-from PIL import Image
 import io
+import base64
 
 from models import models
 from schema import schemas
@@ -70,12 +70,17 @@ def destroy(id: int, db: Session):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Floor with id {id} not found.",
         )
+    basename_image = floor_to_delete.first().floor_image.split('/')[3]
+    path_image_delete = Path(
+            f'{IMAGES_DIR}/{basename_image}.png').as_posix()
+    if os.path.exists(path_image_delete):
+        os.remove(path_image_delete)
     floor_to_delete.delete(synchronize_session=False)
     db.commit()
     return {"done"}
 
 
-def update(request: models.Floor, new_floor_image_file: File(), db: Session):
+def update(request: schemas.Floor, floor_id, db: Session):
     """
     Update a floor
     Args:
@@ -87,23 +92,33 @@ def update(request: models.Floor, new_floor_image_file: File(), db: Session):
     Returns:
         models.Floor: Floor object
     """
-    floors = db.query(models.Floor).filter(
-        models.Floor.floor_id == request.floor_id)
-    floor = floors.first()
-    if not floor:
+    floor = db.query(models.Floor).filter(
+        models.Floor.floor_id == floor_id)
+    if not floor.first():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Floor with id {id} not found"
         )
-    if new_floor_image_file:
-        basename_image = floor.floor_image.split('/')[3]
+    if not 'http://' in request.floor_image:
+        base64_image = request.floor_image.split(',')[1]
+        image_data = base64.b64decode(base64_image)
+
+
+        basename_image = floor.first().floor_image.split('/')[3]
         floor_image_path = Path(
             f'{IMAGES_DIR}/{basename_image}.png').as_posix()
-        request.floor_image = floor.floor_image
+        if os.path.exists(floor_image_path):
+            os.remove(floor_image_path)
+
+        basename_image = uuid.uuid4()
+        request.floor_image = f'api/floors/image/{basename_image}'
+        floor_image_path = Path(
+            f'{IMAGES_DIR}/{basename_image}.png').as_posix()
+
         with open(floor_image_path, "wb") as file:
-            file.write(new_floor_image_file.file.read())
+            file.write(image_data)
     floor_new = request.__dict__
     floor_new.pop('_sa_instance_state', None)
-    floors.update(floor_new)
+    floor.update(floor_new)
     db.commit()
     return "updated"
 
