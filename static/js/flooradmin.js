@@ -29,12 +29,12 @@ function loadTable() {
           <td><img src="http://${host}/${floor.floor_image}" alt="${floor.floor_name}" style="width:80px;height:80px;"></td>
           <td>${floor.floor_description}</td>
           <td>${floor.floor_price}</td>
-          <td><button class="button type1" id="btn-edit-floor" onclick="editFloor(${floor.floor_id});">
+          <td><button class="button type1" onclick="openDialog('edit-floor-dialog', ${floor.floor_id})"
                 <span class="btn-txt">Edit</span>
                 </button>
             </td>
             <td>
-                <button class="button type2" onclick="deleteFloor(${floor.floor_id});">
+                <button class="button type2" >
                 <span class="btn-txt">Delete</span>
                 </button>
             </td>
@@ -58,7 +58,8 @@ async function check_token() {
     })
     console.log(checkToken);
     if (checkToken.status === 401) {
-        window.location.href = 'http://' + host + '/login';
+        console.log('test');
+        // window.location.href = 'http://' + host + '/login';
     }
 }
 

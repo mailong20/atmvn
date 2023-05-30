@@ -1,37 +1,42 @@
-const btnAddFloor = document.getElementById('btnaddFloor');
-const btnEditFloor = document.getElementById('btn-edit-floor');
-const addDialog = document.getElementById("add-floor-dialog")
-const editDialog = document.getElementById("edit-floor-dialog")
-btnAddFloor.addEventListener('click', (e) => {
-    addDialog.showModal();
-})
-const btnClodeAddFloor = document.getElementById('btn-close-add-floor');
-btnClodeAddFloor.addEventListener('click', (e) => {
-    addDialog.close();
+function openDialog(dialogId, floorId=None) {
+    const dialog = document.getElementById(dialogId)
+    dialog.showModal();
+  }
 
-})
+function closeDialog(dialogId) {
+    const dialog = document.getElementById(dialogId)
+    dialog.close();
+  }
 
-function editFloor(floor_id) {
-    console.log(floor_id)
-    editDialog.showModal();
-}
+async function addNewFloor(dialogId) {
+    console.log(dialogId)
+    const dialogAddFloor = document.getElementById(dialogId);
+    const floorName = dialogAddFloor.querySelector('#floorName').value;
+    const floorImageFile = dialogAddFloor.querySelector('#floorImageFile').files[0];
+    const floorDescription = dialogAddFloor.querySelector('#floorDescription').value;
+    const floorPrice = dialogAddFloor.querySelector('#floorPrice').value;
+    
+    // Create a FormData object to send the file and other data
+    const formData = new FormData();
+    formData.append('floor_name', floorName);
+    formData.append('floor_description', floorDescription);
+    formData.append('floor_price', floorPrice);
+    formData.append('floor_image', floorImageFile);
 
-async function deleteFloor(floor_id){
-    console.log('xóa', floor_id)
-    var confirmDeleteFloor = confirm('Are you sure you want to delete this floor?');
-    if(confirmDeleteFloor){
-        const deletefloor = await fetch('/api/floors/'+floor_id, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': localStorage.getItem('Authorization'),
-                'Accept': 'application/json'
-            },
-        })
-        
-        if (deletefloor.status === 204) {
-           console.log("Thành Công!!!")
-           location.reload();
-        }
+    const addFloor = await fetch('/api/floors?floor_name='+floorName+'&floor_description='+floorDescription+'&floor_price='+floorPrice, {
+        method: 'POST',
+        headers: {
+            'Authorization': localStorage.getItem('Authorization'),
+            'Accept': 'application/json'
+        },
+        body: formData,
+        redirect: 'follow',
+    })
+    console.log(addFloor)
+    if (addFloor.status === 201) {
+        console.log('Thêm mới thành công')
     }
+        
 }
+
 

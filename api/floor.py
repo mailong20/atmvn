@@ -48,7 +48,7 @@ def create(request: schemas.Floor, floor_image_file: File(), db: Session):
     db.add(new_floor)
     db.commit()
     db.refresh(new_floor)
-    return
+    return 
 
 
 def destroy(id: int, db: Session):

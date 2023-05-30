@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 import requests
 import os
 
-SQLALCHEMY_DATABASE_URL = 'postgresql://postgres:tum19@localhost/atmvn'
+SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root:mailong2000@localhost:3306/fastapi'
 ROOT_DATA = 'data'
 IMAGES_DIR = os.path.join(ROOT_DATA, 'images')
 os.makedirs(IMAGES_DIR, exist_ok=True)

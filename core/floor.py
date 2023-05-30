@@ -39,6 +39,7 @@ def create_floor(
     db: Session = Depends(get_db),
     # current_user: schemas.User = Depends(get_current_user),
 ):
+    print('Floor',floor_name, floor_description, floor_price)
     request = schemas.Floor(floor_name=floor_name, floor_image='',
                             floor_description=floor_description, floor_price=floor_price)
     return floor.create(request=request, floor_image_file=floor_image, db=db)
