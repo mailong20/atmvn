@@ -34,7 +34,7 @@ function loadTable() {
                 </button>
             </td>
             <td>
-                <button class="button type2" >
+                <button class="button type2" onclick="deleteFloor(${floor.floor_id});">
                 <span class="btn-txt">Delete</span>
                 </button>
             </td>
@@ -45,6 +45,13 @@ function loadTable() {
             // xử lý lỗi trong quá trình gọi API
             console.error(error);
         });
+}
+
+function clearTable() {
+    var table = document.getElementById("myTable");
+    while (table.rows.length > 1) {
+        table.deleteRow(1);
+    }
 }
 
 
@@ -58,8 +65,7 @@ async function check_token() {
     })
     console.log(checkToken);
     if (checkToken.status === 401) {
-        console.log('test');
-        // window.location.href = 'http://' + host + '/login';
+        window.location.href = 'http://' + host + '/login';
     }
 }
 

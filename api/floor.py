@@ -39,7 +39,7 @@ def create(request: schemas.Floor, floor_image_file: File(), db: Session):
 
     if floor_image_file:
         basename_image = uuid.uuid4()
-        floor_image_path= Path(
+        floor_image_path = Path(
             f'{IMAGES_DIR}/{basename_image}.png').as_posix()
         new_floor.floor_image = f'api/floors/image/{basename_image}'
         with open(floor_image_path, "wb") as file:
@@ -48,7 +48,7 @@ def create(request: schemas.Floor, floor_image_file: File(), db: Session):
     db.add(new_floor)
     db.commit()
     db.refresh(new_floor)
-    return 
+    return
 
 
 def destroy(id: int, db: Session):
@@ -75,7 +75,7 @@ def destroy(id: int, db: Session):
     return {"done"}
 
 
-def update(id: int, request: schemas.Floor, db: Session):
+def update(request: models.Floor, new_floor_image_file: File(), db: Session):
     """
     Update a floor
     Args:
@@ -87,12 +87,23 @@ def update(id: int, request: schemas.Floor, db: Session):
     Returns:
         models.Floor: Floor object
     """
-    floor = db.query(models.Floor).filter(models.Floor.id == id)
-    if not floor.first():
+    floors = db.query(models.Floor).filter(
+        models.Floor.floor_id == request.floor_id)
+    floor = floors.first()
+    if not floor:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Floor with id {id} not found"
         )
-    floor.update(request.__dict__)
+    if new_floor_image_file:
+        basename_image = floor.floor_image.split('/')[3]
+        floor_image_path = Path(
+            f'{IMAGES_DIR}/{basename_image}.png').as_posix()
+        request.floor_image = floor.floor_image
+        with open(floor_image_path, "wb") as file:
+            file.write(new_floor_image_file.file.read())
+    floor_new = request.__dict__
+    floor_new.pop('_sa_instance_state', None)
+    floors.update(floor_new)
     db.commit()
     return "updated"
 
@@ -118,11 +129,11 @@ def show(id: int, db: Session):
         )
 
 
-def get_image(floor_image_name:str):
-    path_image = os.path.join(IMAGES_DIR,f'{floor_image_name}.png')
+def get_image(floor_image_name: str):
+    path_image = os.path.join(IMAGES_DIR, f'{floor_image_name}.png')
     try:
         if os.path.isfile(path_image):
-           return FileResponse(path_image)
+            return FileResponse(path_image)
     except Exception as e:
         raise HTTPException(status_code=404, detail="Image not found")
     # img_byte_arr = io.BytesIO()

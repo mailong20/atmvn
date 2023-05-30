@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>Sign In</title>
     <!-- Load Bootstrap CSS -->
-    <link href="{{url_for('static', path='/css/login.css')}}" rel="stylesheet">
+    <link href="../static/css/login.css" rel="stylesheet">
+    <script src="../static/js/login.js">
+
+    </script>
     <!-- Custom styles -->
     <style>
     </style>
@@ -47,7 +50,7 @@
                     <input id="userPass" type="password" placeholder="Input with password validation">
                     <span></span>
                 </label>
-                <button class="submit-button" id="submit" type="submit">
+                <button class="submit-button" id="submit" type="button" onclick="login()">
                     Login
                 </button>
             </div>
@@ -56,9 +59,50 @@
             </div>
         </form>
     </div>
-    <script src="{{url_for('static', path='/js/login.js')}}">
-        check_token();
-    </script>
+    <div class="notification">
+        <!-- the viewBox is 79x79 due to
+            - the size of the graphic, 65x75
+            - the stroke width, 4x4
+            - the empty space included on either side of the graphic to avoid cropping when rotating the bell's shape 10x0
+        -->
+
+
+        <!-- message displaying the notification
+        include modifiers to change the style of the message
+        message--info
+        message--success
+        message--warning
+        message--danger
+    
+        ! add a button to dismiss the message to the side
+        -->
+        <div class="notification__message message--info">
+            <h1>Info</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+
+            <!-- x icon through a path element -->
+            <button aria-labelledby="button-dismiss">
+                <span id="button-dismiss" hidden>Dismiss</span>
+                <svg viewBox="0 0 100 100" width="100" height="100">
+                    <!-- group to style the path -->
+                    <g stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"
+                        fill="none">
+                        <!-- group to center and rotate the + sign to show an x sign instead -->
+                        <g transform="translate(50 50) rotate(45)">
+                            <!-- path describing two perpendicular lines -->
+                            <path d="M 0 -30 v 60 z M -30 0 h 60">
+                            </path>
+                        </g>
+                    </g>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <link href="../static/css/notification.css" rel="stylesheet">
+    <script src="../static/js/notification.js" crossorigin="anonymous"></script>
+    <script> check_token();</script>
+    <script src="../static/js/dialog.js"></script>
+
 </body>
 
 </html>
