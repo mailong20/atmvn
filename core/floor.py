@@ -90,7 +90,7 @@ def update_floor(
     floor_price: float,
     floor_image: Optional[UploadFile] = File(...),
     db: Session = Depends(get_db),
-    # current_user: schemas.User = Depends(get_current_user),
+    current_user: schemas.User = Depends(get_current_user),
 ):
     request = models.Floor(floor_id=floor_id, floor_name=floor_name, floor_image='',
                            floor_description=floor_description, floor_price=floor_price)

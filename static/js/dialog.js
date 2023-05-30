@@ -39,83 +39,70 @@ async function editFloor(editDialogId) {
     const floorPrice = dialogEditFloor.querySelector('#floorPrice').value;
     const floorImgSrc = dialogEditFloor.querySelector('#img_view_edit').src;
 
-    const formData = new FormData();
-    formData.append('floor_id', floorId);
-    formData.append('floor_name', floorName);
-    formData.append('floor_description', floorDescription);
-    formData.append('floor_price', floorPrice);
+    var myHeaders = new Headers();
+    myHeaders.append("accept", "application/json");
+    myHeaders.append('Authorization', localStorage.getItem('Authorization'));
 
-    // formData.append('floor_image', floorImgSrc);
+    var formdata = new FormData();
+    // formdata.append("floor_image", fileInput.files[0], "/path/to/file");
+
+
     if (floorImgSrc.startsWith('http')) {
-        const floorImageFile = await urlToFile(floorImgSrc);
-
-        // Sử dụng formData để gửi đối tượng tệp
-        const formData = new FormData();
-        formData.append('floor_image', floorImageFile);
+        const floorImageSrc = await urlToFile(floorImgSrc);
+        formdata.append('floor_image', floorImageSrc);
+        console.log(floorImageSrc)
     }
-    if (floorImgSrc.startsWith('data:image')) {
-        formData.append('floor_image', floorImageFile);
-        console.log("testststststst",)
-        const floorImageFile = base64ToFile(floorImgSrc);
-
-        // Sử dụng formData để gửi đối tượng tệp
-        const formData = new FormData();
-        formData.append('floor_image', floorImageFile);
+    else{
+        const floorImageSrc = base64ToFile(floorImgSrc);
+        formdata.append('floor_image', floorImageSrc);
+        console.log(floorImageSrc)
     }
-
-    const updateFloor = await fetch('/api/floors?floor_name=' + floorName + '&floor_description=' + floorDescription + '&floor_price=' + floorPrice
-        , {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json'
-            },
-            body: formData
-        })
+    var requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+        };
+    
+    const updateFloor = await fetch(`/api/floors/?floor_id=${floorId}&floor_name=${floorName}&floor_description=${floorDescription}&floor_price=${floorPrice}`, 
+        requestOptions)
+    
     if (updateFloor.status === 202) {
         generateMessage('success', `Bạn đã thay đổi  floor ${floorId} thành công!`);
         closeDialog(editDialogId);
         clearTable();
         loadTable();
-
+    }else if (updateFloor.status === 401) {
+        window.location.href = 'http://' + host + '/login';
+        generateMessage('warning', 'Bạn vui lòng đăng nhập!');
+    } else {
+        generateMessage('danger', 'Edit thất bại! Vui lòng kiểm tra lại.');
     }
-
-    async function urlToFile(url) {
-        // Tải ảnh từ URL
-        const response = await fetch(url);
-        const blob = await response.blob();
-
-        // Lấy metadata của ảnh
-        const metadata = { type: 'image/jpeg' };
-
-        // Tạo một đối tượng File với dữ liệu từ blob và metadata
-        return new File([blob], 'filename.jpg', metadata);
-    }
-
-    function base64ToFile(base64src) {
-        // Tách dữ liệu ảnh từ chuỗi base64
-        const data = base64src.split(',')[1];
-        const blob = atob(data);
-
-        // Tạo một Uint8Array từ dữ liệu ảnh
-        const uint8array = new Uint8Array(blob.length);
-        for (let i = 0; i < blob.length; i++) {
-            uint8array[i] = blob.charCodeAt(i);
-        }
-
-        // Lấy metadata của ảnh
-        const metadata = { type: 'image/jpeg' };
-
-        // Tạo một đối tượng File với dữ liệu từ uint8array và metadata
-        return new File([uint8array], 'filename.jpg', metadata);
-    }
-
-
-
-
-
-
-
 }
+async function urlToFile(url) {
+    // Tải ảnh từ URL
+    const response = await fetch(url);
+    const blob = await response.blob();
+
+    // Lấy metadata của ảnh
+    const metadata = { type: 'image/jpeg' };
+
+    // Tạo một đối tượng File với dữ liệu từ blob và metadata
+    return new File([blob], 'filename.png', metadata);
+}
+
+async function base64ToFile(base64src) {
+    // Tách dữ liệu ảnh từ chuỗi base64
+    var arr = base64src.split(','),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[arr.length - 1]), 
+    n = bstr.length, 
+    u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], 'filename.png', {type:mime});
+    }
 
 function changImage(FileImageId, imgViewId) {
     const uploadImage = document.getElementById(FileImageId);
@@ -147,7 +134,7 @@ async function addNewFloor(dialogId) {
     formData.append('floor_description', floorDescription);
     formData.append('floor_price', floorPrice);
     formData.append('floor_image', floorImageFile);
-
+    console.log(floorImageFile)
     const addFloor = await fetch('/api/floors?floor_name=' + floorName + '&floor_description=' + floorDescription + '&floor_price=' + floorPrice, {
         method: 'POST',
         headers: {
@@ -201,5 +188,5 @@ async function deleteFloor(floor_id) {
 
         }
     }
-}
 
+}
