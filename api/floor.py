@@ -8,7 +8,7 @@ import os
 from pathlib import Path
 import io
 import base64
-
+import random
 from models import models
 from schema import schemas
 from database.configuration import IMAGES_DIR, port
@@ -92,6 +92,7 @@ def update(request: schemas.Floor, floor_id, db: Session):
     Returns:
         models.Floor: Floor object
     """
+    
     floor = db.query(models.Floor).filter(
         models.Floor.floor_id == floor_id)
     if not floor.first():
@@ -116,7 +117,10 @@ def update(request: schemas.Floor, floor_id, db: Session):
 
         with open(floor_image_path, "wb") as file:
             file.write(image_data)
+    else:
+        request.floor_image=floor.first().floor_image
     floor_new = request.__dict__
+    print(floor_new)
     floor_new.pop('_sa_instance_state', None)
     floor.update(floor_new)
     db.commit()
@@ -135,6 +139,29 @@ def show(id: int, db: Session):
         models.Foor: Foor object
     """
     floor = db.query(models.Floor).filter(models.Floor.floor_id == id).first()
+    if floor:
+        return floor
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Foor with the id {id} is not available",
+        )
+    
+
+def show_test(id: int, db: Session):
+    """
+    Get a Foor
+    Args:
+        id (int): Foor id
+        db (Session): Database session
+    Raises:
+        HTTPException: 404 not found
+    Returns:
+        models.Foor: Foor object
+    """
+    floors = db.query(models.Floor).all()
+    random_index = random.randint(0, len(floors)-1)
+    floor = floors[random_index]
     if floor:
         return floor
     else:

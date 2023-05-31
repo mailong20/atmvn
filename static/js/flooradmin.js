@@ -25,6 +25,7 @@ function loadTable() {
                 const row = table.insertRow(i + 1);
                 row.innerHTML = `
           <td>${i + 1}</td>
+          <td>${floor.floor_id}</td>
           <td>${floor.floor_name}</td>
           <td><img src="http://${host}/${floor.floor_image}" alt="${floor.floor_name}" style="width:80px;height:80px;"></td>
           <td>${floor.floor_description}</td>

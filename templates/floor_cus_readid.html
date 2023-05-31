@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ floor.floor_name }} Details</title>
-    <link href="..static/css/bootstrap.css" rel="stylesheet">
+    <title>Details</title>
+    <link href="{{ url_for('static', path='/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{url_for('static', path='/css/home.css')}}" rel="stylesheet">
     <style>
         .container {
             margin-top: 50px;
@@ -72,27 +73,83 @@
                 max-height: 300px;
             }
         }
+        .home-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-family: cursive;
+      background-color: transparent;
+      border: none;
+      color: #6c757d;
+      cursor: pointer;
+    }
+
+    .home-button i {
+      margin-right: 5px;
+    }
+
+
     </style>
+    <script src="https://kit.fontawesome.com/aa319e5b40.js" crossorigin="anonymous"></script>
+    
+
 </head>
 <body>
-    <div class="container">
-        <h1 class="product-title">{{ floor.floor_name }} Details</h1>
-        <hr>
-        <div class="row">
-            <div class="col-md-7">
-                <img src="/static/images/{{ floor.floor_image }}" class="card-img-top product-image" alt="{{ floor.floor_name }}" id="main-img">
-            </div>
-            <div class="col-md-5">
-                <p class="card-text">{{ floor.floor_description }}</p>
-                <hr>
-                <h5 class="product-price">Price: {{ floor.floor_price }}</h5>
-            </div>
+<a href="/floor">
+    <button class="home-button"><i class="fa-solid fa-backward fa-lg"></i> </button>
+</a>
+<div class="container">
+    <h1 class="product-title">Details</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md-7">
+            <img src="" class="card-img-top product-image" alt="Floor Image" id="main-img">
         </div>
-        <div class="mini-slide">
-            <img src="/static/images/swaran.jpg" onclick="document.getElementById('main-img').src='/static/images/swaran.jpg'" alt="swaran">
-            <img src="/static/images/sabo.jpg" onclick="document.getElementById('main-img').src='/static/images/sabo.jpg'" alt="sabo">
-            <img src="/static/images/avadol.jpg" onclick="document.getElementById('main-img').src='/static/images/avadol.jpg'" alt="avadol">
+        <div class="col-md-5">
+            <h1 class="product-title" id="floor-name">Loading...</h1>
+            <hr>
+            <p class="card-text" id="floor-description">Loading...</p>
+            <hr>
+            <h5 class="product-price" id="floor-price">Loading...</h5>
         </div>
     </div>
+    <div class="mini-slide">
+        <img src="/static/images/swaran.jpg"
+             onclick="document.getElementById('main-img').src='/static/images/swaran.jpg'" alt="swaran">
+        <img src="/static/images/sabo.jpg" onclick="document.getElementById('main-img').src='/static/images/sabo.jpg'"
+             alt="sabo">
+        <img src="/static/images/avadol.jpg"
+             onclick="document.getElementById('main-img').src='/static/images/avadol.jpg'" alt="avadol">
+    </div>
+</div>
+<script>
+        // Function to change the main image
+        function changeMainImage(imageUrl) {
+            document.getElementById('main-img').src = imageUrl;
+        }
+
+        // Function to fetch the floor data from the API
+        function fetchFloorData(floorId) {
+            fetch(`/api/floors/test/${floorId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Populate the data in the HTML
+                    document.getElementById('floor-name').innerText = data.floor_name;
+                    document.getElementById('floor-description').innerText = data.floor_description;
+                    document.getElementById('floor-price').innerText = `Price: ${data.floor_price}`;
+                    document.getElementById('main-img').src = `http://${window.location.host}/${data.floor_image}`;
+                })
+                .catch(error => console.log(error));
+        }
+
+        // Get the floor ID from the URL
+        <!--const floorId = window.location.pathname.split('/')[2];-->
+        const floorId = "{{ floor_id }}";
+
+        // Fetch the floor data
+        fetchFloorData(floorId);
+
+
+</script>
 </body>
 </html>

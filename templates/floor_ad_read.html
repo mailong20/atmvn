@@ -10,32 +10,59 @@
   <link href="../static/css/dialogaddfloor.css" rel="stylesheet">
   <link href="../static/css/notification.css" rel="stylesheet">
   <script src="https://kit.fontawesome.com/aa319e5b40.js" crossorigin="anonymous"></script>
+<script>
+  function changTopNavbar(){
+  var navbar = document.getElementById("navbar");
+  document.body.style.paddingTop = navbar.offsetHeight + "px";
+};
 
+window.addEventListener("resize", function() {
+  changTopNavbar();
+  
+});
+
+</script>
 
 
 
 </head>
-
-<body>
-  <header>
-    <div class="position-fixed" style="top: 0; right: 0;">
-      <a href="/">
-        <button class="btn btn-transparent text-gray my-3" style="font-family: cursive;"><i
-            class="fas fa-home"></i>HOME</button>
+<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed;
+top: 0;
+left: 0;
+right: 0;
+z-index: 999;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img src="/static/images/logo.jpg" alt="ATM Vietnam" style="max-height: 55px; max-width: 100%; border: none;">
       </a>
     </div>
-    <div class="container text-center">
-      <h1 class="my-5" style="font-family: cursive;">List of Floors - ADMIN</h1>
+    <div class="navbar-menu">
+      <h1>List of Floors - ADMIN</h1>
     </div>
-
-
-  </header>
+    <div class="navbar-right">
+      <a href="/">
+        <button class="btn btn-transparent text-gray my-3"  style="font-family: cursive;">
+          <i
+          class="fas fa-home"></i>HOME</button>
+      </a>
+      <a href="/">
+        <button class="btn btn-transparent text-gray my-3"  style="font-family: cursive;" onclick="localStorage.removeItem('Authorization');">
+          <i class="fa-solid fa-right-from-bracket fa-xl"></i>
+           Log out
+          </button>
+      </a>
+    </div>
+  </div>
+</nav>
+<body>
   <div class="container">
 
     <table id="myTable" class="table table-hover">
       <thead>
         <tr>
-          <th>ID CODE</th>
+          <th>NO.</th>
+          <th>CODE</th>
           <th>NAME</th>
           <th>IMAGE</th>
           <th>DESCRIPTION</th>
@@ -143,22 +170,6 @@
     </div>
   </dialog>
   <div class="notification">
-    <!-- the viewBox is 79x79 due to
-        - the size of the graphic, 65x75
-        - the stroke width, 4x4
-        - the empty space included on either side of the graphic to avoid cropping when rotating the bell's shape 10x0
-    -->
-
-
-    <!-- message displaying the notification
-    include modifiers to change the style of the message
-    message--info
-    message--success
-    message--warning
-    message--danger
-
-    ! add a button to dismiss the message to the side
-    -->
     <div class="notification__message message--info">
       <h1>Info</h1>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
@@ -185,6 +196,7 @@
   <script src="../static/js/dialog.js"></script>
   <script src="../static/js/notification.js" crossorigin="anonymous"></script>
   <script>
+    changTopNavbar();
     check_token();
     loadTable();
   </script>

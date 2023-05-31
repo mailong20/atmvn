@@ -63,6 +63,24 @@ def get_floor_by_id(
     """
     return floor.show(id, db)
 
+@router.get("/test/{id}", status_code=status.HTTP_200_OK, response_model=schemas.ShowFloor)
+def get_floor_by_id(
+    id: int,
+    response: Response,
+    db: Session = Depends(get_db),
+):
+    """
+    Get a floor by id
+    Args:
+        id (int): Floor id
+        response (Response): FastAPI response
+        db (Session, optional): Database session. Defaults to None.
+        current_user (schemas.User, optional): Current user. Defaults to None.
+    Returns:
+        schemas.ShowBlog: Blog
+    """
+    return floor.show_test(id, db)
+
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_floor(

@@ -92,3 +92,15 @@ async def test(request: Request):
     # current_user: schemas.User = Depends(get_current_user),):
 
     return templates.TemplateResponse("test.html", {"request": request})
+
+@router.get("/floor/{id}", response_class=HTMLResponse)
+async def floor_id(request: Request, id: int):
+    """
+    Floor page by ID
+    Args:
+        request (Request): Request object
+        id (int): Floor ID
+    Returns:
+        HTMLResponse: HTML response
+    """
+    return templates.TemplateResponse("floor_cus_readid.html", {"request": request, "floor_id": id})
