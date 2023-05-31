@@ -23,7 +23,3 @@ https://www.youtube.com/watch?v=B5iV2emqOi8&t=177s
 ### Youtube Channel link
 https://www.youtube.com/channel/UCVyNVB6evazPGWWC83TeQxw
 uvicorn main2:app
-=======
-# atmvn
->>>>>>> d5b16dc09c443c66c6303b28e8335607e68bf3b3
-=======

@@ -1,3 +1,4 @@
+from fastapi import Depends, HTTPException, status
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -50,6 +51,8 @@ def verify_token(token: str, credentials_exception):
             raise credentials_exception
         token_data = TokenData(email=email)
     except JWTError:
-        raise 
-
-
+        return HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "bearer"},
+        )

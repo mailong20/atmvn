@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy.orm import Session
-
+from models import models
 from api import floor
 from database import configuration
 from schema import schemas
@@ -16,8 +16,9 @@ get_db = configuration.get_db
 
 
 @router.get("/", response_model=List[schemas.ShowFloor])
-def get_all_foors(
+def get_all_floors(
     db: Session = Depends(get_db),
+    current_user: schemas.User = Depends(get_current_user),
 ):
     """
     Get all blogs
@@ -37,10 +38,10 @@ def create_floor(
     floor_price: float,
     floor_image: Optional[UploadFile] = File(...),
     db: Session = Depends(get_db),
-    # current_user: schemas.User = Depends(get_current_user),
+    current_user: schemas.User = Depends(get_current_user),
 ):
-    request = schemas.Floor(floor_name=floor_name, floor_image='',
-                            floor_description=floor_description, floor_price=floor_price)
+    request = models.Floor(floor_name=floor_name, floor_image='',
+                           floor_description=floor_description, floor_price=floor_price)
     return floor.create(request=request, floor_image_file=floor_image, db=db)
 
 
@@ -81,24 +82,19 @@ def delete_floor(
     return floor.destroy(id, db)
 
 
-@router.put("/{id}", status_code=status.HTTP_202_ACCEPTED)
+@router.put("/", status_code=status.HTTP_202_ACCEPTED)
 def update_floor(
-    id: int,
+    floor_id: str,
+    # floor_name: str,
+    # floor_description: str,
+    # floor_price: float,
+    # floor_image: Optional[UploadFile] = File(...),
     request: schemas.Floor,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user),
+    # current_user: schemas.User = Depends(get_current_user),
 ):
-    """
-    Update a floor by id
-    Args:
-        id (int): Floor id
-        request (schemas.Blog): Floor to update
-        db (Session, optional): Database session. Defaults to Depends(get_db).
-        current_user (schemas.User, optional): Current user. Defaults to Depends(get_current_user).
-    Returns:
-        schemas.Blog: Updated blog
-    """
-    return floor.update(id, request, db)
+   
+    return floor.update(request, floor_id, db)
 
 
 @router.get("/image/{floor_image_name}")

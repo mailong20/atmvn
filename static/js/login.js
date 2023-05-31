@@ -11,7 +11,7 @@ function redirectFloor() {
     window.location.href = "/admin/floor";
 }
 
-function login() {
+async function login() {
     let username = document.getElementById('userEmail');
     let password = document.getElementById('userPass');
 
@@ -33,23 +33,23 @@ function login() {
     };
 
     // headers.append('Authorization', e.access_token)
-    fetch("/api/login/", requestOptions)
-        .then(response => response.text().then((e) => {
-            headers.append('Authorization', JSON.parse(e).token_type + ' ' + JSON.parse(e).access_token);
-            localStorage.setItem('Authorization', JSON.parse(e).token_type + ' ' + JSON.parse(e).access_token);
-            console.log(localStorage.getItem('Authorization'));
-            redirectFloor();
-        }))
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+    const checkLogin = await fetch("/api/login/", requestOptions)
 
+    if (checkLogin.status === 200) {
+        const data = await checkLogin.json();
+        const accessToken = data.access_token;
+        const tokenType = data.token_type;
+        console.log(accessToken, tokenType);
+        headers.append('Authorization', tokenType + ' ' + accessToken);
+        localStorage.setItem('Authorization', tokenType + ' ' + accessToken);
+        // generateMessage('success', "Bạn đăng nhập thành công!")
+        redirectFloor();
+    }
+    else {
+        generateMessage("danger", 'Đăng nhập thất bại!')
+
+    }
 }
-
-const btnSubmit = document.getElementById('submit');
-
-btnSubmit.addEventListener('click', (e) => {
-    login();
-})
 
 
 
@@ -66,6 +66,7 @@ function check_token() {
         .then(data => {
             if (data.status == "success") {
                 redirectFloor()
+
             }
 
         })
@@ -74,4 +75,4 @@ function check_token() {
             console.error(error);
         });
 }
-check_token();
+

@@ -29,7 +29,7 @@ function loadTable() {
           <td><img src="http://${host}/${floor.floor_image}" alt="${floor.floor_name}" style="width:80px;height:80px;"></td>
           <td>${floor.floor_description}</td>
           <td>${floor.floor_price}</td>
-          <td><button class="button type1" id="btn-edit-floor" onclick="editFloor(${floor.floor_id});">
+          <td><button class="button type1" onclick="openDialog('edit-floor-dialog', ${floor.floor_id})"
                 <span class="btn-txt">Edit</span>
                 </button>
             </td>
@@ -45,6 +45,13 @@ function loadTable() {
             // xử lý lỗi trong quá trình gọi API
             console.error(error);
         });
+}
+
+function clearTable() {
+    var table = document.getElementById("myTable");
+    while (table.rows.length > 1) {
+        table.deleteRow(1);
+    }
 }
 
 
