@@ -9,23 +9,10 @@ class FloorBase(BaseModel):
     floor_image: str
     floor_description: str
     floor_price: str
+    floor_type_id: str
 
 
 class Floor(FloorBase):
-    class Config:
-        orm_mode = True
-
-
-class User(BaseModel):
-    name: str
-    user_email: str
-    user_pass: str
-
-
-class ShowUser(BaseModel):
-    name: str
-    user_email: str
-
     class Config:
         orm_mode = True
 
@@ -40,6 +27,29 @@ class ShowFloor(BaseModel):
     class Config:
         orm_mode = True
 
+
+class FloorType(BaseModel):
+    id: str
+    name: str
+
+class ShowFloorType(BaseModel):
+    id: str
+    name: str
+
+    class Config:
+        orm_mode = True
+
+class User(BaseModel):
+    name: str
+    user_email: str
+    user_pass: str
+
+class ShowUser(BaseModel):
+    name: str
+    user_email: str
+
+    class Config:
+        orm_mode = True
 
 class Login(BaseModel):
     username: str
