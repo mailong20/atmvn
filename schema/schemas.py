@@ -23,6 +23,7 @@ class ShowFloor(BaseModel):
     floor_image: str
     floor_description: str
     floor_price: str
+    floor_type_id: str
 
     class Config:
         orm_mode = True
