@@ -13,6 +13,13 @@ class FloorBase(BaseModel):
 
 
 class Floor(FloorBase):
+    
+    class Config:
+        orm_mode = True
+
+class UpdateFloor(FloorBase):
+    old_floor_id: str
+    floor_id: str
     class Config:
         orm_mode = True
 

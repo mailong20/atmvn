@@ -12,18 +12,23 @@ async function openDialog(dialogId, floorId = None) {
         if (getFloor.status === 200) {
             const data = await getFloor.json();
             const floorId = data.floor_id;
+            const floorTypeId = data.floor_type_id;
             const floorName = data.floor_name;
             const floorimg = data.floor_images;
             const floorDescription = data.floor_description;
             const floorPrice = data.floor_price;
+            
 
 
             const dialogEditFloor = document.getElementById(dialogId)
-            // dialogEditFloor.querySelector('#floorId').value = floorId;
+            dialogEditFloor.querySelector('#baseFloorId').value = floorId.split('-').slice(1).join("-");
             dialogEditFloor.querySelector('#floorName').value = floorName;
             dialogEditFloor.querySelector('#img_view_edit').src = 'http://' + host + '/' + floorimg;
             dialogEditFloor.querySelector('#floorDescription').value = floorDescription;
             dialogEditFloor.querySelector('#floorPrice').value = floorPrice;
+            dialogEditFloor.querySelector('#floorType').value = floorTypeId;
+            dialogEditFloor.querySelector('#btnEditFloor').value = floorId;
+            
 
         }
 
@@ -34,22 +39,27 @@ async function openDialog(dialogId, floorId = None) {
 async function editFloor(editDialogId) {
 
     const dialogEditFloor = document.getElementById(editDialogId)
-    const floorId = dialogEditFloor.querySelector('#floorId').value;
+    const floorTypeId = dialogEditFloor.querySelector('#floorType').value;
+    const baseFloorId = dialogEditFloor.querySelector('#baseFloorId').value;
     const floorName = dialogEditFloor.querySelector('#floorName').value;
     const floorDescription = dialogEditFloor.querySelector('#floorDescription').value;
     const floorPrice = dialogEditFloor.querySelector('#floorPrice').value;
     const floorImgSrc = dialogEditFloor.querySelector('#img_view_edit').src;
-
+    const oldFloorId = dialogEditFloor.querySelector('#btnEditFloor').value
     var myHeaders = new Headers();
     myHeaders.append("accept", "application/json");
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
         "floor_name": floorName,
-        "floor_image": floorImgSrc,
+        "floor_images": floorImgSrc,
         "floor_description": floorDescription,
-        "floor_price": floorPrice
+        "floor_price": floorPrice,
+        "floor_type_id": floorTypeId,
+        "old_floor_id": oldFloorId,
+        "floor_id": baseFloorId
     });
+
 
     var requestOptions = {
         method: 'PUT',
@@ -57,11 +67,11 @@ async function editFloor(editDialogId) {
         body: raw,
         redirect: 'follow'
     };
-
-    const updateFloor = await fetch(`http://${host}/api/floors/?floor_id=${floorId}`, requestOptions)
+    // http://${host}
+    const updateFloor = await fetch(`/api/floors/`, requestOptions);
 
     if (updateFloor.status === 202) {
-        generateMessage('success', `Bạn đã thay đổi  floor ${floorId} thành công!`);
+        generateMessage('success', `Bạn đã thay đổi  floor ${oldFloorId} thành công!`);
         closeDialog(editDialogId);
         clearTable();
         loadTable();
@@ -116,19 +126,23 @@ function closeDialog(dialogId) {
 
 async function addNewFloor(dialogId) {
     const dialogAddFloor = document.getElementById(dialogId);
+    const floorTypeSelect = dialogAddFloor.querySelector('#floorType').value;
+    const baseFloorId = dialogAddFloor.querySelector('#baseFloorId').value;
     const floorName = dialogAddFloor.querySelector('#floorName').value;
     const floorImageFile = dialogAddFloor.querySelector('#floorImageFile').files[0];
     const floorDescription = dialogAddFloor.querySelector('#floorDescription').value;
     const floorPrice = dialogAddFloor.querySelector('#floorPrice').value;
+  
 
     // Create a FormData object to send the file and other data
     const formData = new FormData();
+    formData.append('floor_id', baseFloorId);
+    formData.append('floor_type_id', floorTypeSelect);
     formData.append('floor_name', floorName);
     formData.append('floor_description', floorDescription);
     formData.append('floor_price', floorPrice);
     formData.append('floor_image', floorImageFile);
-    console.log(floorImageFile)
-    const addFloor = await fetch('/api/floors?floor_name=' + floorName + '&floor_description=' + floorDescription + '&floor_price=' + floorPrice, {
+    const addFloor = await fetch(`/api/floors?floor_id=${baseFloorId}&floor_type_id=${floorTypeSelect}&floor_name=${floorName}&floor_description=${floorDescription}&floor_price=${floorPrice}`, {
         method: 'POST',
         headers: {
             'Authorization': localStorage.getItem('Authorization'),

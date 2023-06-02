@@ -35,6 +35,7 @@ def create(request: schemas.Floor, floor_image_file: File(), db: Session):
     Returns:
         models.Floor: Floor object
     """
+   
     floor_type.check_floor_type(floor_type_id=request.floor_type_id, db=db)
     floor_id =  f"{request.floor_type_id}-{request.floor_id}"
     check_floor(floor_id, db)
@@ -84,7 +85,7 @@ def destroy(id: int, db: Session):
     return {"done"}
 
 
-def update(request: schemas.Floor, floor_id, db: Session):
+def update(request: schemas.UpdateFloor, db: Session):
     """
     Update a floor
     Args:
@@ -96,9 +97,22 @@ def update(request: schemas.Floor, floor_id, db: Session):
     Returns:
         models.Floor: Floor object
     """
+    # "floor_name": floorName,
+    #     "floor_images": floorImgSrc,
+    #     "floor_description": floorDescription,
+    #     "floor_price": floorPrice,
+    #     "floor_type_id": floorTypeId,
+    #     "old_floor_id": oldFloorId,
+    #     "floor_id": baseFloorId
+    new_floor_id =  f"{request.floor_type_id}-{request.floor_id}"
+    new_floor = models.Floor(floor_id=new_floor_id,floor_name=request.floor_name,
+                             floor_description=request.floor_description, 
+                             floor_price=request.floor_price, floor_type_id=request.floor_type_id)
+    
     floor = db.query(models.Floor).filter(
-        models.Floor.floor_id == floor_id)
+        models.Floor.floor_id == request.old_floor_id.strip())
     if not floor.first():
+        print("hi")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Floor với id {id} không tồn tại"
         )
@@ -114,13 +128,13 @@ def update(request: schemas.Floor, floor_id, db: Session):
             os.remove(floor_image_path)
 
         basename_image = uuid.uuid4()
-        request.floor_images = f'api/floors/image/{basename_image}'
+        new_floor.floor_images = f'api/floors/image/{basename_image}'
         floor_image_path = Path(
             f'{IMAGES_DIR}/{basename_image}.png').as_posix()
 
         with open(floor_image_path, "wb") as file:
             file.write(image_data)
-    floor_new = request.__dict__
+    floor_new = new_floor.__dict__
     floor_new.pop('_sa_instance_state', None)
     floor.update(floor_new)
     db.commit()

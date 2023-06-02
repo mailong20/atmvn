@@ -86,18 +86,15 @@ def delete_floor(
 
 @router.put("/", status_code=status.HTTP_202_ACCEPTED)
 def update_floor(
-    floor_id: str,
-    request: schemas.Floor,
+    request: schemas.UpdateFloor,
     db: Session = Depends(get_db),
     # current_user: schemas.User = Depends(get_current_user),
 ):
-   
-    return floor.update(request, floor_id, db)
+    return floor.update(request, db)
 
 
 @router.get("/image/{floor_image_name}")
 def get_floor_image(floor_image_name: str):
-    print(floor_image_name)
     return floor.get_image(floor_image_name)
 
 
