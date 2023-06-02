@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Details</title>
+    <link href="{{ url_for('static', path='/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{url_for('static', path='/css/home.css')}}" rel="stylesheet">
+    <style>
+        .container {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .mini-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .mini-slide img {
+            width: 70px;
+            height: 70px;
+            margin: 0 10px;
+            cursor: pointer;
+            border: 2px solid #CCC;
+        }
+
+        .mini-slide img:hover {
+            border: 2px solid #007bff;
+        }
+
+        .card-text {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #666;
+            margin-top: 15px;
+        }
+
+        .product-image {
+            max-height: 400px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 2px solid #CCC;
+        }
+
+        .product-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .product-price {
+            font-size: 24px;
+            font-weight: 600;
+            color: #007bff;
+            margin-top: 20px;
+        }
+
+        hr {
+            border: 1px solid #CCC;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .mini-slide img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .product-image {
+                max-height: 300px;
+            }
+        }
+        .home-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-family: cursive;
+      background-color: transparent;
+      border: none;
+      color: #6c757d;
+      cursor: pointer;
+    }
+
+    .home-button i {
+      margin-right: 5px;
+    }
+
+
+    </style>
+    <script src="https://kit.fontawesome.com/aa319e5b40.js" crossorigin="anonymous"></script>
+    
+
+</head>
+<body>
+<a href="/floor">
+    <button class="home-button"><i class="fa-solid fa-backward fa-lg"></i> </button>
+</a>
+<div class="container">
+    <h1 class="product-title">Details</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md-7">
+            <img src="" class="card-img-top product-image" alt="Floor Image" id="main-img">
+        </div>
+        <div class="col-md-5">
+            <h1 class="product-title" id="floor-name">Loading...</h1>
+            <hr>
+            <p class="card-text" id="floor-description">Loading...</p>
+            <hr>
+            <h5 class="product-price" id="floor-price">Loading...</h5>
+        </div>
+    </div>
+    <div class="mini-slide">
+        <img src="/static/images/swaran.jpg"
+             onclick="document.getElementById('main-img').src='/static/images/swaran.jpg'" alt="swaran">
+        <img src="/static/images/sabo.jpg" onclick="document.getElementById('main-img').src='/static/images/sabo.jpg'"
+             alt="sabo">
+        <img src="/static/images/avadol.jpg"
+             onclick="document.getElementById('main-img').src='/static/images/avadol.jpg'" alt="avadol">
+    </div>
+</div>
+<script>
+        // Function to change the main image
+        function changeMainImage(imageUrl) {
+            document.getElementById('main-img').src = imageUrl;
+        }
+
+        // Function to fetch the floor data from the API
+        function fetchFloorData(floorId) {
+            fetch(`/api/floors/test/${floorId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Populate the data in the HTML
+                    document.getElementById('floor-name').innerText = data.floor_name;
+                    document.getElementById('floor-description').innerText = data.floor_description;
+                    document.getElementById('floor-price').innerText = `Price: ${data.floor_price}`;
+                    document.getElementById('main-img').src = `http://${window.location.host}/${data.floor_image}`;
+                })
+                .catch(error => console.log(error));
+        }
+
+        // Get the floor ID from the URL
+        <!--const floorId = window.location.pathname.split('/')[2];-->
+        const floorId = "{{ floor_id }}";
+
+        // Fetch the floor data
+        fetchFloorData(floorId);
+
+
+</script>
+</body>
+</html>

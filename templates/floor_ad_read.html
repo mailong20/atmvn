@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>List of Floor</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/css/flooradmin.css" rel="stylesheet">
+  <link href="../static/css/dialogaddfloor.css" rel="stylesheet">
+  <link href="../static/css/notification.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/aa319e5b40.js" crossorigin="anonymous"></script>
+  <script>
+    function changTopNavbar() {
+      var navbar = document.getElementById("navbar");
+      document.body.style.paddingTop = navbar.offsetHeight + "px";
+    };
+
+    window.addEventListener("resize", function () {
+      changTopNavbar();
+
+    });
+
+  </script>
+
+
+
+</head>
+<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed;
+top: 0;
+left: 0;
+right: 0;
+z-index: 999;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img src="/static/images/logo.jpg" alt="ATM Vietnam" style="max-height: 55px; max-width: 100%; border: none;">
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <h1>List of Floors - ADMIN</h1>
+    </div>
+    <div class="navbar-right">
+      <a href="/">
+        <button class="btn btn-transparent text-gray my-3" style="font-family: cursive;">
+          <i class="fas fa-home"></i>HOME</button>
+      </a>
+      <a href="/">
+        <button class="btn btn-transparent text-gray my-3" style="font-family: cursive;"
+          onclick="localStorage.removeItem('Authorization');">
+          <i class="fa-solid fa-right-from-bracket fa-xl"></i>
+          Log out
+        </button>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<body>
+  <div class="container">
+
+    <table id="myTable" class="table table-hover">
+      <thead>
+        <tr>
+          <th>NO.</th>
+          <th>CODE</th>
+          <th>NAME</th>
+          <th>IMAGE</th>
+          <th>DESCRIPTION</th>
+          <th>PRICE</th>
+          <th>EDIT</th>
+          <th>DELETE</th>
+        </tr>
+      </thead>
+    </table>
+    <button class="btn btn-success" onclick="openDialog('add-floor-dialog', null);">Create a new
+      floor</button>
+  </div>
+  <dialog class="form-container" id="add-floor-dialog">
+    <div class="form-container__sign-buttons">
+      <section class="icon-headline" style="display: flex; flex-direction: row; justify-content: space-between;">
+        <div style="display: flex; flex-direction: row;  align-items: center; ">
+          <i class="fa-regular fa-plus " style=" margin-right: 0.5rem;" width="24" height="24" viewBox="0 0 24 24"></i>
+          <h3>New Floor</h3>
+        </div>
+        <button class="close-dialog" id="btn-close-add-floor" type="button" title="Close dialog"
+          onclick="closeDialog('add-floor-dialog')"
+          style="aspect-ratio: 1 / 1; width: .5rem; display: flex; align-items: center; justify-content: center;">
+          <i style="margin: auto;" class="fa-solid fa-circle-xmark fa-2xl"></i>
+        </button>
+      </section>
+    </div>
+    <div class="form-container__sign-inputs">
+      <label>
+        <label>Floor Type</label>
+        <select required id="floorType"></select>
+      </label>
+      <label>
+        <label>Floor Name</label>
+        <label style="display: flex; flex-direction: row; ">
+          <input id="floortypeid" style="margin-right: 1rem; flex-basis: 30%;" required="" type="text" disabled
+            placeholder="Enter floor name">
+          <input style="flex-basis: 70%;" required="" type="text" id="floorName" placeholder="Enter floor name">
+        </label>
+
+      </label>
+      <label>
+        <label>Floor Image File</label>
+        <input required="" type="file" id="floorImageFile" accept="image/*">
+
+      </label>
+      <label>
+        <label>Floor Description</label>
+        <textarea required="" type="text" id="floorDescription" placeholder="Enter floor description"></textarea>
+      </label>
+      <label>
+        <label>Floor Price</label>
+        <input required="*" type="number" id="floorPrice" placeholder="Enter floor price">
+
+      </label>
+
+    </div>
+    <div class="form-container__auth-block">
+      <button class="submit-button" type="button" onclick="addNewFloor('add-floor-dialog')">
+        Add Floor
+      </button>
+    </div>
+
+  </dialog>
+  <dialog class="form-container" id="edit-floor-dialog">
+    <div class="form-container__sign-buttons">
+      <section class="icon-headline" style="display: flex; flex-direction: row; justify-content: space-between;">
+        <div style="display: flex; flex-direction: row;  align-items: center; ">
+          <i class="fa-regular fa-plus " style=" margin-right: 0.5rem;" width="24" height="24" viewBox="0 0 24 24"></i>
+          <h3>Edit Floor</h3>
+        </div>
+        <button class="close-dialog" id="btn-close-add-floor" type="button" title="Close dialog"
+          onclick="closeDialog('edit-floor-dialog')"
+          style="aspect-ratio: 1 / 1; width: .5rem; display: flex; align-items: center; justify-content: center;">
+          <i style="margin: auto;" class="fa-solid fa-circle-xmark fa-2xl"></i>
+        </button>
+      </section>
+    </div>
+    <div class="form-container__sign-between">
+      <img src="#" id="img_view_edit" style="width:200px;height:200px;  margin-bottom: 10px;"></img>
+    </div>
+    <div class="form-container__sign-inputs">
+      <label>
+        <label>Floor Type</label>
+        <select required id="floorType"></select>
+      </label>
+      <label>
+        <label>Floor Name</label>
+        <label style="display: flex; flex-direction: row; ">
+          <input id="floortypeid" style="margin-right: 1rem; flex-basis: 30%;" required="" type="text" disabled
+            placeholder="Enter floor name">
+          <input style="flex-basis: 70%;" required="" type="text" id="floorName" placeholder="Enter floor name">
+        </label>
+
+      </label>
+
+      <label>
+        <label>Floor Name</label>
+        <input required="" type="text" id="floorName" placeholder="Enter floor name">
+
+      </label>
+      <label>
+        <label> New Floor Image File</label>
+        <input required="" type="file" id="floorImageFileEdit" accept="image/*"
+          onchange="changImage(this.id, img_view_edit)">
+
+      </label>
+      <label>
+        <label>Floor Description</label>
+        <textarea required="" type="text" id="floorDescription" placeholder="Enter floor description"></textarea>
+      </label>
+      <label>
+        <label>Floor Price</label>
+        <input required="*" type="number" id="floorPrice" placeholder="Enter floor price">
+
+      </label>
+
+
+    </div>
+    <div class="form-container__auth-block">
+      <button class="submit-button" id="btnEditFloor" type="button" onclick="editFloor('edit-floor-dialog')">
+        Edit Floor
+      </button>
+    </div>
+  </dialog>
+  <div class="notification">
+    <div class="notification__message message--info">
+      <h1>Info</h1>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+
+      <!-- x icon through a path element -->
+      <button aria-labelledby="button-dismiss">
+        <span id="button-dismiss" hidden>Dismiss</span>
+        <svg viewBox="0 0 100 100" width="100" height="100">
+          <!-- group to style the path -->
+          <g stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <!-- group to center and rotate the + sign to show an x sign instead -->
+            <g transform="translate(50 50) rotate(45)">
+              <!-- path describing two perpendicular lines -->
+              <path d="M 0 -30 v 60 z M -30 0 h 60">
+              </path>
+            </g>
+          </g>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="../static/js/flooradmin.js"></script>
+  <script src="../static/js/dialog.js"></script>
+  <script src="../static/js/notification.js" crossorigin="anonymous"></script>
+  <script>
+    changTopNavbar();
+    check_token();
+    loadTable();
+  </script>
+
+</body>
+
+</html>
