@@ -6,13 +6,15 @@ from sqlalchemy.orm import Session
 from api import user
 from database import configuration
 from schema import schemas
-
+from schema.oa2 import get_current_user
 router = APIRouter(tags=["Users"], prefix="/api/users")
 get_db = configuration.get_db
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.ShowUser)
-def create_user(request: schemas.User, db: Session = Depends(get_db)):
+def create_user(request: schemas.User, db: Session = Depends(get_db), 
+                # current_user: schemas.User = Depends(get_current_user),
+                ):
     """
     Create a new user
     Args:

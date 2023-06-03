@@ -40,7 +40,7 @@ def create_floor(
     floor_type_id: str,
     floor_image: Optional[UploadFile] = File(...),
     db: Session = Depends(get_db),
-    # current_user: schemas.User = Depends(get_current_user),
+    current_user: schemas.User = Depends(get_current_user),
 ):
     request = models.Floor(floor_id=floor_id, floor_name=floor_name, floor_images='',
                            floor_description=floor_description, floor_price=floor_price, floor_type_id= floor_type_id)
@@ -70,7 +70,7 @@ def get_floor_by_id(
 def delete_floor(
     id: str,
     db: Session = Depends(get_db),
-    # current_user: schemas.User = Depends(get_current_user),
+    current_user: schemas.User = Depends(get_current_user),
 ):
     """
     Delete a floor by id
@@ -88,7 +88,7 @@ def delete_floor(
 def update_floor(
     request: schemas.UpdateFloor,
     db: Session = Depends(get_db),
-    # current_user: schemas.User = Depends(get_current_user),
+    current_user: schemas.User = Depends(get_current_user),
 ):
     return floor.update(request, db)
 

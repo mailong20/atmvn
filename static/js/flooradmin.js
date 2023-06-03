@@ -30,12 +30,12 @@ function loadTable() {
           <td><img src="http://${host}/${floor.floor_images}" alt="${floor.floor_name}" style="width:80px;height:80px;"></td>
           <td>${floor.floor_description}</td>
           <td>${floor.floor_price}</td>
-          <td><button class="button type1" onclick="openDialog('edit-floor-dialog','${floor.floor_id}')"
+          <td><button class="button type1" onclick="openDialog('edit-floor-dialog','${floor.floor_id}')">
                 <span class="btn-txt">Edit</span>
                 </button>
             </td>
             <td>
-                <button class="button type2" onclick="deleteFloor('${floor.floor_id}');">
+                <button class="button type1" onclick="deleteFloor('${floor.floor_id}');">
                 <span class="btn-txt">Delete</span>
                 </button>
             </td>

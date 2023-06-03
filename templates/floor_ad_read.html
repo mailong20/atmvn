@@ -10,6 +10,8 @@
   <link href="../static/css/dialogaddfloor.css" rel="stylesheet">
   <link href="../static/css/notification.css" rel="stylesheet">
   <script src="https://kit.fontawesome.com/aa319e5b40.js" crossorigin="anonymous"></script>
+  <script src="../static/js/flooradmin.js"></script>
+  <script src="../static/js/dialog.js"></script>
   <script>
     function changTopNavbar() {
       var navbar = document.getElementById("navbar");
@@ -22,6 +24,7 @@
     });
 
   </script>
+  <script>check_token();</script>
 
 
 
@@ -215,12 +218,11 @@ z-index: 999;">
     </div>
   </div>
 
-  <script src="../static/js/flooradmin.js"></script>
-  <script src="../static/js/dialog.js"></script>
+  
   <script src="../static/js/notification.js" crossorigin="anonymous"></script>
   <script>
     changTopNavbar();
-    check_token();
+   
     loadTable();
   </script>
 

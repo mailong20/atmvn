@@ -31,6 +31,12 @@ async function openDialog(dialogId, floorId = None) {
             
 
         }
+        else{
+            dialogEditFloor.querySelector('#baseFloorId').value = '';
+            dialogEditFloor.querySelector('#floorName').value = '';
+            dialogEditFloor.querySelector('#floorDescription').value = '';
+            dialogEditFloor.querySelector('#floorPrice').value = '';
+        }
 
 
     }
@@ -49,6 +55,7 @@ async function editFloor(editDialogId) {
     var myHeaders = new Headers();
     myHeaders.append("accept", "application/json");
     myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", localStorage.getItem('Authorization'));
 
     var raw = JSON.stringify({
         "floor_name": floorName,
@@ -76,7 +83,8 @@ async function editFloor(editDialogId) {
         clearTable();
         loadTable();
     } else if (updateFloor.status === 401) {
-        window.location.href = 'http://' + host + '/login';
+        // window.location.href = 'http://' + host + '/login';
+        console.log("lỗi")
         generateMessage('warning', 'Bạn vui lòng đăng nhập!');
     } else {
         generateMessage('danger', 'Edit thất bại! Vui lòng kiểm tra lại.');

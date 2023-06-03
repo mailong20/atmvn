@@ -91,11 +91,39 @@ async def company(request: Request):
     """
     return templates.TemplateResponse("contact.html", {"request": request})
 
+
+@router.get("/showroom", response_class=HTMLResponse)
+async def company(request: Request):
+    # current_user: schemas.User = Depends(get_current_user),):
+    """
+    Home page
+    Args:
+        request (Request): Request object
+    Returns:
+        HTMLResponse: HTML response
+    """
+    return templates.TemplateResponse("showroom.html", {"request": request})
+
+
+@router.get("/cungcap", response_class=HTMLResponse)
+async def company(request: Request):
+    # current_user: schemas.User = Depends(get_current_user),):
+    """
+    Home page
+    Args:
+        request (Request): Request object
+    Returns:
+        HTMLResponse: HTML response
+    """
+    return templates.TemplateResponse("cungcap.html", {"request": request})
+
+
 @router.get("/products/", response_class=HTMLResponse)
 async def show_products(request: Request):
     # current_user: schemas.User = Depends(get_current_user),):
 
     return templates.TemplateResponse("products.html", {"request": request, "floor_type_id": "all"})
+
 
 @router.get("/products/{id}", response_class=HTMLResponse)
 async def show_products_by_id(request: Request, id: str):

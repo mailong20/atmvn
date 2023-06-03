@@ -13,7 +13,7 @@ body {
 /* display the wrapping container in the top right corner of the viewport */
 .notification {
   position: fixed;
-  top: 2.5rem;
+  top: 5rem;
   right: 1rem;
   /* align the content to the rigth */
   display: flex;
