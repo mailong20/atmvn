@@ -1,0 +1,33 @@
+
+.header1 {
+    background-color:aliceblue;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    min-height: 100%;
+}
+.menu-item1 {
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    padding-top: 100px;
+    padding-left: 10px;
+    width: 40%;
+    
+}
+.header1 .hinhanh{
+    width: 50%;
+}
+.header1 .hinhanh img{
+    width: 20rem;
+    height: 20rem;
+}
+.mieuta{
+    font-weight: normal;
+}
+.ten{
+    font-size: 30px;
+    text-align:center;
+}

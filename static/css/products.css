@@ -1,0 +1,88 @@
+      
+.productgrid{
+
+    background-color:#ffffff;
+    display:flex;
+    flex-wrap:wrap;
+    /* display: grid; */
+    /* grid-template-rows: auto auto auto auto; */
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    border-radius: 5px;
+    grid-gap: 1rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    display: flex; 
+    /* justify-content: center; */
+    align-items: center; /* căn giữa theo chiều dọc */
+    /* justify-content: space-around; */
+    }
+    .product{
+        margin-bottom: 1rem;
+    border-radius: 1rem 0;
+    padding-top: 2rem;
+    /* padding-bottom: 2rem; */
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+    border: 0.1rem;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.212);
+    width:20rem;
+    --vh: 8.38px;
+    --banner-height: 104px;
+    font-size: 1rem;
+    letter-spacing: .025rem;
+    line-height: 1.5rem;
+    font-weight: 300;
+    list-style: none;
+    display: flex; /* sử dụng flexbox */
+    justify-content: center; /* căn giữa theo chiều ngang */
+    align-items: center; /* căn giữa theo chiều dọc */
+    text-decoration: none;
+ 
+    }
+    .product .productimg img{
+        
+        width:100%;
+        
+    }
+    .product .productitem {
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+        
+    
+        
+    }
+   
+    .product .productitem .productid{
+        padding-top: 1rem;
+        text-align: center;
+        font-style: italic; 
+        font-size: rem; 
+        color: #080808;
+        text-decoration: none;
+    }
+    .product .productitem .productname{
+        text-align: center;
+        font-style: italic; 
+        font-size: 1rem; 
+        font-weight: bold;
+        color: #ec3a3a;
+        text-decoration: none;
+
+    }
+    .product .productitem .productprice{
+        padding-top: 1rem;
+        text-align: center;
+        font-style: italic; 
+        font-size: 1rem; 
+        color: #080808;
+        text-decoration: none;
+    }
+
+
+
+  

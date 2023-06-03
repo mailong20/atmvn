@@ -172,6 +172,10 @@ def get_image(floor_image_name: str):
 
 
 def get_floors_by_floor_type_id(floor_type_id, db):
+    print(floor_type_id)
+    if floor_type_id == "all":
+        return get_all(db=db)
+    
     floor_type.check_floor_type(floor_type_id, db)
     floors = db.query(models.Floor).filter(
         models.Floor.floor_type_id == floor_type_id).all()
