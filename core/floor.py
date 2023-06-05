@@ -33,18 +33,12 @@ def get_all_floors(
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
 def create_floor(
-    floor_id: str,
-    floor_name: str,
-    floor_description: str,
-    floor_price: float,
-    floor_type_id: str,
-    floor_image: Optional[UploadFile] = File(...),
+    request: schemas.ShowFloor,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user),
+    # current_user: schemas.User = Depends(get_current_user),
 ):
-    request = models.Floor(floor_id=floor_id, floor_name=floor_name, floor_images='',
-                           floor_description=floor_description, floor_price=floor_price, floor_type_id= floor_type_id)
-    return floor.create(request=request, floor_image_file=floor_image, db=db)
+    
+    return floor.create(request=request, db=db)
 
 
 @router.get("/{id}", status_code=status.HTTP_200_OK, response_model=schemas.ShowFloor)

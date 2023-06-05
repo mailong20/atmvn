@@ -13,6 +13,11 @@ async function openDialog(dialogId, floorId = None) {
     fetchFloorTypes(dialog);
     dialog.showModal();
     if (floorId) {
+        const table_image = dialog.querySelector("#table");
+        const rows = table_image.rows;
+        while (rows.length > 2) {
+            table_image.deleteRow(rows.length - 1);
+          }
         const getFloor = await fetch('http://' + host + '/api/floors/' + floorId, {
             headers: {
                 'Accept': 'application/json'
@@ -23,12 +28,22 @@ async function openDialog(dialogId, floorId = None) {
             const floorId = data.floor_id;
             const floorTypeId = data.floor_type_id;
             const floorName = data.floor_name;
-            const floorimg = data.floor_images;
+            const floorimgs = data.floor_images;
             const floorDescription = data.floor_description;
             const floorPrice = data.floor_price;
+           
+            floorimglist = floorimgs.split('~');
+            floorImages = floorimglist.map(function(floorimg) {
+                const items = floorimg.split('|');
+                if (items.length === 2) {
+                    return items;
+                }
+            }).filter(function(item) {
+                return item !== undefined;
+              });
+        
 
-
-
+            addImageFromEdit(dialogId, floorImages)
             const dialogEditFloor = document.getElementById(dialogId)
             dialogEditFloor.querySelector('#baseFloorId').value = floorId.split('-').slice(1).join("-");
             dialogEditFloor.querySelector('#floorName').value = floorName;
@@ -40,14 +55,19 @@ async function openDialog(dialogId, floorId = None) {
 
 
         }
-        else {
-            dialogEditFloor.querySelector('#baseFloorId').value = '';
-            dialogEditFloor.querySelector('#floorName').value = '';
-            dialogEditFloor.querySelector('#floorDescription').value = '';
-            dialogEditFloor.querySelector('#floorPrice').value = '';
-        }
-
-
+    }
+    else {
+        dialog.querySelector('#baseFloorId').value = '';
+        dialog.querySelector('#floorName').value = '';
+        dialog.querySelector('#floorDescription').value = '';
+        dialog.querySelector('#floorPrice').value = '';
+        const table_image = dialog.querySelector("#table");
+        const rows = table_image.rows;
+        while (rows.length > 2) {
+            table_image.deleteRow(rows.length - 1);
+          }
+            
+          
     }
 }
 
@@ -59,16 +79,29 @@ async function editFloor(editDialogId) {
     const floorName = dialogEditFloor.querySelector('#floorName').value;
     const floorDescription = dialogEditFloor.querySelector('#floorDescription').value;
     const floorPrice = dialogEditFloor.querySelector('#floorPrice').value;
-    const floorImgSrc = dialogEditFloor.querySelector('#img_view_edit').src;
     const oldFloorId = dialogEditFloor.querySelector('#btnEditFloor').value
     var myHeaders = new Headers();
     myHeaders.append("accept", "application/json");
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", localStorage.getItem('Authorization'));
 
+    const tbody = dialogEditFloor.querySelector('#table tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    rows.shift();
+    const imageDict = {};
+    rows.forEach((row) => {
+        const nameInput = row.querySelector('input[type="text"]');
+        const previewImage = row.querySelector('img');
+        const name = nameInput.value;
+        const src = previewImage.src;
+        imageDict[name] = src;
+
+    });
+    const floorImageString = JSON.stringify(imageDict);
+
     var raw = JSON.stringify({
         "floor_name": floorName,
-        "floor_images": floorImgSrc,
+        "floor_images": floorImageString,
         "floor_description": floorDescription,
         "floor_price": floorPrice,
         "floor_type_id": floorTypeId,
@@ -163,39 +196,38 @@ async function addNewFloor(dialogId) {
 
     });
     const floorImageString = JSON.stringify(imageDict);
-    console.log(floorImageString)
+  
+    var raw = JSON.stringify({
+        "floor_id": baseFloorId,
+        "floor_name": floorName,
+        "floor_images": floorImageString,
+        "floor_description": floorDescription,
+        "floor_price": floorPrice,
+        "floor_type_id": floorTypeSelect
+      });
+    var myHeaders = new Headers();
+    myHeaders.append("accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", localStorage.getItem('Authorization'));
+    const addFloor = await fetch('/api/floors/', {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow',
+    })
+    if (addFloor.status === 201) {
+        generateMessage('success', 'Bạn đã thêm floor mới thành công!');
+        closeDialog('add-floor-dialog');
+        clearTable();
+        loadTable();
 
-    // // Create a FormData object to send the file and other data
-    // const formData = new FormData();
-    // formData.append('floor_id', baseFloorId);
-    // formData.append('floor_type_id', floorTypeSelect);
-    // formData.append('floor_name', floorName);
-    // formData.append('floor_description', floorDescription);
-    // formData.append('floor_price', floorPrice);
-    // formData.append('floor_image', floorImageFile);
-    // const addFloor = await fetch(`/api/floors?floor_id=${baseFloorId}&floor_type_id=${floorTypeSelect}&floor_name=${floorName}&floor_description=${floorDescription}&floor_price=${floorPrice}`, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Authorization': localStorage.getItem('Authorization'),
-    //         'Accept': 'application/json'
-    //     },
-    //     body: formData,
-    //     redirect: 'follow',
-    // })
-    // console.log(addFloor)
-    // if (addFloor.status === 201) {
-    //     generateMessage('success', 'Bạn đã thêm floor mới thành công!');
-    //     closeDialog('add-floor-dialog');
-    //     clearTable();
-    //     loadTable();
-
-    // }
-    // else if (addFloor.status === 401) {
-    //     window.location.href = 'http://' + host + '/login';
-    //     generateMessage('warning', 'Bạn vui lòng đăng nhập!');
-    // } else {
-    //     generateMessage('danger', 'Thêm thất bại! Vui lòng kiểm tra lại.');
-    // }
+    }
+    else if (addFloor.status === 401) {
+        window.location.href = 'http://' + host + '/login';
+        generateMessage('warning', 'Bạn vui lòng đăng nhập!');
+    } else {
+        generateMessage('danger', 'Thêm thất bại! Vui lòng kiểm tra lại.');
+    }
 }
 
 
@@ -253,6 +285,55 @@ async function fetchFloorTypes(dialog) {
             dialog.querySelector('#floortypeid').value = selectedFloorTypeId;
             console.log('Selected value:', selectedFloorTypeId);
         });
+    }
+}
+
+
+function addImageFromEdit(dialogId, imgs) {
+    dialog = document.getElementById(dialogId);
+    var table = dialog.querySelector('#table');
+    fileInput = dialog.querySelector('.add-files');
+    var rowTemplate = dialog.querySelector('#row-template-add');
+    for (let i = 0; i < imgs.length; i++) { // Lặp qua danh sách các file để xử lý mỗi tệp tin riêng lẻ
+        img = imgs[i]
+        const newRow = rowTemplate.cloneNode(true);
+        const baseId = ranId();
+        newRow.id = baseId;
+        const nameImage = newRow.querySelector('#name_image');
+        const previewImg = newRow.querySelector('#preview');
+        const fileUpdate = newRow.querySelector('#file_input_update');
+        const editButton = newRow.querySelector('#edit-button');
+        const saveButton = newRow.querySelector('#save-button');
+        const deleteButton = newRow.querySelector('#delete-button');
+
+        nameImage.value = img[0]
+        previewImg.src = `/${img[1]}`;
+
+        previewImg.addEventListener('click', function () {
+            fileUpdate.click();
+        });
+
+
+        deleteButton.addEventListener('click', function () {
+            deleteRow(newRow.id);
+        });
+
+        editButton.addEventListener('click', function () {
+            this.style.display = 'none';
+            saveButton.style.display = '';
+            previewImg.style.pointerEvents = '';
+            nameImage.disabled = false;
+        });
+
+        saveButton.addEventListener('click', function () {
+            this.style.display = 'none';
+            editButton.style.display = '';
+            previewImg.style.pointerEvents = 'none';
+            nameImage.disabled = true;
+        });
+
+        table.querySelector('tbody').appendChild(newRow);
+        newRow.style.display = '';
     }
 }
 

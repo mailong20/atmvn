@@ -23,10 +23,20 @@ function loadProductList() {
                 const floor_name = floor.floor_name
                 const floor_price = floor.floor_price
                 const floor_images = floor.floor_images
+                floorimglist = floor_images.split('~');
+                floorImgs = floorimglist.map(function(floorimg) {
+                    const items = floorimg.split('|');
+                    if (items.length === 2) {
+                        return items;
+                    }
+                }).filter(function(item) {
+                    return item !== undefined;
+                  });
+                console.log(floorImgs);
                 productList.innerHTML += `
                 <div class="product" onclick="openProduct('${floor_id}');">
                 <div class="productimg">
-                    <img src="/${floor_images}" alt="${floor_name}"/>
+                    <img src="/${floorImgs[0][1]}" alt="${floor_name}"/>
                     <div class="productitem"> 
                         <p class="productid">${floor_id}</p>
                     </div>

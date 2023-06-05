@@ -27,6 +27,7 @@
 </head>
 
 <body>
+  <div id="floor_id_detail" value="{{ floor_id }}"></div>
   <nav id ="navbar" class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed;
   top: 0;
   left: 0;
@@ -94,11 +95,7 @@
       </div>
     </div>
   </nav>
-<div style="max-height:60%">
-    <div class="header1" id="product-infor">
-<a href="/">
-    <button class="home-button"><i class="fas fa-home"></i>HOME</button>
-</a>
+
 <div class="container">
     <h1 class="product-title">Details</h1>
     <hr>
@@ -115,12 +112,12 @@
         </div>
     </div>
     <div class="mini-slide">
-        <img src="/static/images/swaran.jpg"
+        <!-- <img src="/static/images/swaran.jpg"
              onclick="document.getElementById('main-img').src='/static/images/swaran.jpg'" alt="swaran">
         <img src="/static/images/sabo.jpg" onclick="document.getElementById('main-img').src='/static/images/sabo.jpg'"
              alt="sabo">
         <img src="/static/images/avadol.jpg"
-             onclick="document.getElementById('main-img').src='/static/images/avadol.jpg'" alt="avadol">
+             onclick="document.getElementById('main-img').src='/static/images/avadol.jpg'" alt="avadol"> -->
     </div>
 </div>
 <!-- Image -->
@@ -129,36 +126,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 <script src="../static/js/index.js"></script>
 <script>loadProduct();</script>
-<script>
-        // Function to change the main image
-        function changeMainImage(imageUrl) {
-            document.getElementById('main-img').src = imageUrl;
-        }
 
-        // Function to fetch the floor data from the API
-        function fetchFloorData(floorId) {
-            fetch(`/api/floors/${floorId}`)
-                .then(response => response.json())
-                .then(data => {
-                    // Populate the data in the HTML
-                    document.getElementById('floor-name').innerText = data.floor_name;
-                    document.getElementById('floor-description').innerText = data.floor_description;
-                    document.getElementById('floor-price').innerText = `Price: ${data.floor_price}`;
-                    document.getElementById('main-img').src = `/${data.floor_images}`;
-                })
-                .catch(error => console.log(error));
-        }
-
-        // Get the floor ID from the URL
-        <!--const floorId = window.location.pathname.split('/')[2];-->
-        const floorId = "{{ floor_id }}";
-
-        // Fetch the floor data
-        fetchFloorData(floorId);
-
-
-</script>
-<script> loadFloorType();</script>
 
 </body>
 
