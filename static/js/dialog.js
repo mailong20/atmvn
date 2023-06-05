@@ -146,23 +146,24 @@ async function addNewFloor(dialogId) {
     const floorTypeSelect = dialogAddFloor.querySelector('#floorType').value;
     const baseFloorId = dialogAddFloor.querySelector('#baseFloorId').value;
     const floorName = dialogAddFloor.querySelector('#floorName').value;
-    // const floorImageFile = dialogAddFloor.querySelector('#floorImageFile').files[0];
+
     const floorDescription = dialogAddFloor.querySelector('#floorDescription').value;
     const floorPrice = dialogAddFloor.querySelector('#floorPrice').value;
 
     const tbody = dialogAddFloor.querySelector('#table tbody');
     const rows = Array.from(tbody.querySelectorAll('tr'));
     rows.shift();
-
+    const imageDict = {};
     rows.forEach((row) => {
         const nameInput = row.querySelector('input[type="text"]');
         const previewImage = row.querySelector('img');
         const name = nameInput.value;
         const src = previewImage.src;
+        imageDict[name] = src;
 
-        console.log(`Name: ${name}, Src: ${src}`);
     });
-
+    const floorImageString = JSON.stringify(imageDict);
+    console.log(floorImageString)
 
     // // Create a FormData object to send the file and other data
     // const formData = new FormData();
