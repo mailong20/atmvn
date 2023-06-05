@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Thêm ảnh vào bảng</title>
+    <link href="../static/css/test.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/aa319e5b40.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <table id="table" class="tabel-image">
+        <thead>
+            <tr>
+                <th>Ảnh</th>
+                <th>Preview</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="row-template" style="display: none;">
+                <td><input id="name_image" type="text" disabled></td>
+                <td><img id="preview" class="preview" style="pointer-events: none;">
+                    <input id="file_input_update" type="file" style="display: none;"
+                        onchange="updateImage(this.parentElement.parentElement.id);">
+                </td>
+                <td>
+
+                    <button class="button-image-table" id="edit-button"><i
+                            class="fa-solid fa-pen-to-square fa-2xl"></i></button>
+                    <button class="button-image-table" id="save-button" style="display: none;"><i
+                            class="fa-solid fa-floppy-disk fa-2xl"></i></button>
+                    <button class="button-image-table" id="delete-button"><i
+                            class="fa-solid fa-trash-can fa-2xl"></i></button>
+                </td>
+            </tr>
+        </tbody>
+        <button class="button-image-table" id="add-button"><i class="fa-solid fa-circle-plus fa-2xl"></i></button>
+        <input id="file-inputs" type="file" style="display: none;" multiple>
+    </table>
+
+
+
+    <script src="../static/js/test.js">
+
+    </script>
+</body>
+
+</html>

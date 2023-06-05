@@ -14,8 +14,8 @@ dialog::backdrop {
   font: 700 14px Menlo, Roboto Mono, monospace;
   text-align: center;
   color: #333;
-  max-width: 20rem;
-  /* min-width: 20rem; */
+  max-width: 30rem;
+  min-width: 30rem;
 }
 
 .form-container form {

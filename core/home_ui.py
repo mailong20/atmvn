@@ -148,3 +148,9 @@ async def floor_id(request: Request, id: int):
         HTMLResponse: HTML response
     """
     return templates.TemplateResponse("floor_cus_readid.html", {"request": request, "floor_id": id})
+
+
+@router.get("/test", response_class=HTMLResponse)
+async def test(request: Request):
+
+    return templates.TemplateResponse("test.html", {"request": request})

@@ -1,3 +1,12 @@
+function ranId(n = 15) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < n; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+}
+
 async function openDialog(dialogId, floorId = None) {
 
     const dialog = document.getElementById(dialogId)
@@ -17,21 +26,21 @@ async function openDialog(dialogId, floorId = None) {
             const floorimg = data.floor_images;
             const floorDescription = data.floor_description;
             const floorPrice = data.floor_price;
-            
+
 
 
             const dialogEditFloor = document.getElementById(dialogId)
             dialogEditFloor.querySelector('#baseFloorId').value = floorId.split('-').slice(1).join("-");
             dialogEditFloor.querySelector('#floorName').value = floorName;
-            dialogEditFloor.querySelector('#img_view_edit').src = 'http://' + host + '/' + floorimg;
+            // dialogEditFloor.querySelector('#img_view_edit').src = 'http://' + host + '/' + floorimg;
             dialogEditFloor.querySelector('#floorDescription').value = floorDescription;
             dialogEditFloor.querySelector('#floorPrice').value = floorPrice;
             dialogEditFloor.querySelector('#floorType').value = floorTypeId;
             dialogEditFloor.querySelector('#btnEditFloor').value = floorId;
-            
+
 
         }
-        else{
+        else {
             dialogEditFloor.querySelector('#baseFloorId').value = '';
             dialogEditFloor.querySelector('#floorName').value = '';
             dialogEditFloor.querySelector('#floorDescription').value = '';
@@ -137,42 +146,55 @@ async function addNewFloor(dialogId) {
     const floorTypeSelect = dialogAddFloor.querySelector('#floorType').value;
     const baseFloorId = dialogAddFloor.querySelector('#baseFloorId').value;
     const floorName = dialogAddFloor.querySelector('#floorName').value;
-    const floorImageFile = dialogAddFloor.querySelector('#floorImageFile').files[0];
+    // const floorImageFile = dialogAddFloor.querySelector('#floorImageFile').files[0];
     const floorDescription = dialogAddFloor.querySelector('#floorDescription').value;
     const floorPrice = dialogAddFloor.querySelector('#floorPrice').value;
-  
 
-    // Create a FormData object to send the file and other data
-    const formData = new FormData();
-    formData.append('floor_id', baseFloorId);
-    formData.append('floor_type_id', floorTypeSelect);
-    formData.append('floor_name', floorName);
-    formData.append('floor_description', floorDescription);
-    formData.append('floor_price', floorPrice);
-    formData.append('floor_image', floorImageFile);
-    const addFloor = await fetch(`/api/floors?floor_id=${baseFloorId}&floor_type_id=${floorTypeSelect}&floor_name=${floorName}&floor_description=${floorDescription}&floor_price=${floorPrice}`, {
-        method: 'POST',
-        headers: {
-            'Authorization': localStorage.getItem('Authorization'),
-            'Accept': 'application/json'
-        },
-        body: formData,
-        redirect: 'follow',
-    })
-    console.log(addFloor)
-    if (addFloor.status === 201) {
-        generateMessage('success', 'Bạn đã thêm floor mới thành công!');
-        closeDialog('add-floor-dialog');
-        clearTable();
-        loadTable();
+    const tbody = dialogAddFloor.querySelector('#table tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    rows.shift();
 
-    }
-    else if (addFloor.status === 401) {
-        window.location.href = 'http://' + host + '/login';
-        generateMessage('warning', 'Bạn vui lòng đăng nhập!');
-    } else {
-        generateMessage('danger', 'Thêm thất bại! Vui lòng kiểm tra lại.');
-    }
+    rows.forEach((row) => {
+        const nameInput = row.querySelector('input[type="text"]');
+        const previewImage = row.querySelector('img');
+        const name = nameInput.value;
+        const src = previewImage.src;
+
+        console.log(`Name: ${name}, Src: ${src}`);
+    });
+
+
+    // // Create a FormData object to send the file and other data
+    // const formData = new FormData();
+    // formData.append('floor_id', baseFloorId);
+    // formData.append('floor_type_id', floorTypeSelect);
+    // formData.append('floor_name', floorName);
+    // formData.append('floor_description', floorDescription);
+    // formData.append('floor_price', floorPrice);
+    // formData.append('floor_image', floorImageFile);
+    // const addFloor = await fetch(`/api/floors?floor_id=${baseFloorId}&floor_type_id=${floorTypeSelect}&floor_name=${floorName}&floor_description=${floorDescription}&floor_price=${floorPrice}`, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Authorization': localStorage.getItem('Authorization'),
+    //         'Accept': 'application/json'
+    //     },
+    //     body: formData,
+    //     redirect: 'follow',
+    // })
+    // console.log(addFloor)
+    // if (addFloor.status === 201) {
+    //     generateMessage('success', 'Bạn đã thêm floor mới thành công!');
+    //     closeDialog('add-floor-dialog');
+    //     clearTable();
+    //     loadTable();
+
+    // }
+    // else if (addFloor.status === 401) {
+    //     window.location.href = 'http://' + host + '/login';
+    //     generateMessage('warning', 'Bạn vui lòng đăng nhập!');
+    // } else {
+    //     generateMessage('danger', 'Thêm thất bại! Vui lòng kiểm tra lại.');
+    // }
 }
 
 
@@ -231,4 +253,84 @@ async function fetchFloorTypes(dialog) {
             console.log('Selected value:', selectedFloorTypeId);
         });
     }
+}
+
+function openImage(dialogId) {
+    dialog = document.getElementById(dialogId);
+    dialog.querySelector('.add-files').click();
+}
+
+function addImage(dialogId) {
+    dialog = document.getElementById(dialogId);
+    var table = dialog.querySelector('#table');
+    fileInput = dialog.querySelector('.add-files');
+    var rowTemplate = dialog.querySelector('#row-template-add');
+    const files = fileInput.files; // Lấy danh sách các file đã chọn
+    for (let i = 0; i < files.length; i++) { // Lặp qua danh sách các file để xử lý mỗi tệp tin riêng lẻ
+        const file = files[i];
+        const reader = new FileReader();
+        reader.addEventListener('load', function () {
+            const newRow = rowTemplate.cloneNode(true);
+            const baseId = ranId();
+            newRow.id = baseId;
+            const nameImage = newRow.querySelector('#name_image');
+            const previewImg = newRow.querySelector('#preview');
+            const fileUpdate = newRow.querySelector('#file_input_update');
+            const editButton = newRow.querySelector('#edit-button');
+            const saveButton = newRow.querySelector('#save-button');
+            const deleteButton = newRow.querySelector('#delete-button');
+
+            nameImage.value = file.name.slice(0, file.name.lastIndexOf('.'));
+            previewImg.src = reader.result;
+
+            previewImg.addEventListener('click', function () {
+                fileUpdate.click();
+            });
+
+
+            deleteButton.addEventListener('click', function () {
+                deleteRow(newRow.id);
+            });
+
+            editButton.addEventListener('click', function () {
+                this.style.display = 'none';
+                saveButton.style.display = '';
+                previewImg.style.pointerEvents = '';
+                nameImage.disabled = false;
+            });
+
+            saveButton.addEventListener('click', function () {
+                this.style.display = 'none';
+                editButton.style.display = '';
+                previewImg.style.pointerEvents = 'none';
+                nameImage.disabled = true;
+            });
+
+            table.querySelector('tbody').appendChild(newRow);
+            newRow.style.display = '';
+        });
+        reader.readAsDataURL(file);
+    }
+}
+
+function deleteRow(idRow) {
+    row = document.getElementById(idRow);
+    if (row) {
+        row.remove()
+    }
+}
+
+
+function updateImage(rowId) {
+    console.log(rowId)
+    row = document.querySelector(`#${rowId}`);
+    var fileUpdate = row.querySelector('#file_input_update');
+    const previewImg = row.querySelector('#preview');
+
+    var oFReader = new FileReader();
+    oFReader.readAsDataURL(fileUpdate.files[0]);
+
+    oFReader.onload = function (oFREvent) {
+        previewImg.src = oFREvent.target.result;
+    };
 }

@@ -9,9 +9,11 @@
   <link href="../static/css/flooradmin.css" rel="stylesheet">
   <link href="../static/css/dialogaddfloor.css" rel="stylesheet">
   <link href="../static/css/notification.css" rel="stylesheet">
+  <link href="../static/css/test.css" rel="stylesheet">
   <script src="https://kit.fontawesome.com/aa319e5b40.js" crossorigin="anonymous"></script>
   <script src="../static/js/flooradmin.js"></script>
   <script src="../static/js/dialog.js"></script>
+
   <script>
     function changTopNavbar() {
       var navbar = document.getElementById("navbar");
@@ -109,11 +111,42 @@ z-index: 999;">
       <label>
         <label>Floor Name</label>
         <input required="" type="text" id="floorName" placeholder="Enter floor name">
-  
+
       </label>
       <label>
         <label>Floor Image File</label>
-        <input required="" type="file" id="floorImageFile" accept="image/*">
+        <table id="table" class="tabel-image">
+          <thead>
+            <tr>
+              <th>Image Name</th>
+              <th>Preview</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="row-template-add" style="display: none;">
+              <td><input id="name_image" type="text" disabled></td>
+              <td><img id="preview" class="preview" style="pointer-events: none;">
+                <input id="file_input_update" type="file" style="display: none;"
+                  onchange="updateImage(this.parentElement.parentElement.id);">
+              </td>
+              <td>
+
+                <button class="button-image-table" id="edit-button"><i
+                    class="fa-solid fa-pen-to-square fa-2xl"></i></button>
+                <button class="button-image-table" id="save-button" style="display: none;"><i
+                    class="fa-solid fa-floppy-disk fa-2xl"></i></button>
+                <button class="button-image-table" id="delete-button"><i
+                    class="fa-solid fa-trash-can fa-2xl"></i></button>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+        <button class="button-image-table" id="add-button-image" onclick="openImage('add-floor-dialog');"><i
+            class="fa-solid fa-circle-plus fa-2xl"></i></button>
+        <input id="add-file-inputs" class="add-files" type="file" style="display: none;" multiple
+          onchange="addImage('add-floor-dialog')">
 
       </label>
       <label>
@@ -148,9 +181,6 @@ z-index: 999;">
         </button>
       </section>
     </div>
-    <div class="form-container__sign-between">
-      <img src="#" id="img_view_edit" style="width:200px;height:200px;  margin-bottom: 10px;"></img>
-    </div>
     <div class="form-container__sign-inputs">
       <label>
         <label>Floor Type</label>
@@ -172,9 +202,39 @@ z-index: 999;">
 
       </label>
       <label>
-        <label> New Floor Image File</label>
-        <input required="" type="file" id="floorImageFileEdit" accept="image/*"
-          onchange="changImage(this.id, img_view_edit)">
+        <label> Floor Image Files</label>
+        <table id="table" class="tabel-image">
+          <thead>
+            <tr>
+              <th>Image Name</th>
+              <th>Preview</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="row-template-add" style="display: none;">
+              <td><input id="name_image" type="text" disabled></td>
+              <td><img id="preview" class="preview" style="pointer-events: none;">
+                <input id="file_input_update" type="file" style="display: none;"
+                  onchange="updateImage(this.parentElement.parentElement.id);">
+              </td>
+              <td>
+
+                <button class="button-image-table" id="edit-button"><i
+                    class="fa-solid fa-pen-to-square fa-2xl"></i></button>
+                <button class="button-image-table" id="save-button" style="display: none;"><i
+                    class="fa-solid fa-floppy-disk fa-2xl"></i></button>
+                <button class="button-image-table" id="delete-button"><i
+                    class="fa-solid fa-trash-can fa-2xl"></i></button>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+        <button class="button-image-table" id="edit-button-image" onclick="openImage('edit-floor-dialog');"><i
+            class="fa-solid fa-circle-plus fa-2xl"></i></button>
+        <input id="edit-file-inputs" class="add-files" type="file" style="display: none;" multiple
+          onchange="addImage('edit-floor-dialog')">
 
       </label>
       <label>
@@ -218,11 +278,12 @@ z-index: 999;">
     </div>
   </div>
 
-  
+
   <script src="../static/js/notification.js" crossorigin="anonymous"></script>
+  <!-- <script src="../static/js/test.js"></script> -->
   <script>
     changTopNavbar();
-   
+
     loadTable();
   </script>
 
