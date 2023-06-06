@@ -35,7 +35,7 @@ def get_all_floors(
 def create_floor(
     request: schemas.ShowFloor,
     db: Session = Depends(get_db),
-    # current_user: schemas.User = Depends(get_current_user),
+    current_user: schemas.User = Depends(get_current_user),
 ):
     
     return floor.create(request=request, db=db)

@@ -90,11 +90,12 @@ def destroy(id: int, db: Session):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Floor với id {id} không tồn tại.",
         )
-    basename_image = floor_to_delete.first().floor_images.split('/')[3]
-    path_image_delete = Path(
-            f'{IMAGES_DIR}/{basename_image}.png').as_posix()
-    if os.path.exists(path_image_delete):
-        os.remove(path_image_delete)
+    dicst_image_old = convert_image(floor_to_delete.first().floor_images)
+    for url , _ in dicst_image_old.items():
+        floor_image_path = Path(
+            f'{IMAGES_DIR}/{url.split("/")[-1]}.png').as_posix()
+        if os.path.exists(floor_image_path):
+            os.remove(floor_image_path)
     floor_to_delete.delete(synchronize_session=False)
     db.commit()
     return {"done"}
@@ -120,14 +121,11 @@ def update(request: schemas.UpdateFloor, db: Session):
     floor = db.query(models.Floor).filter(
         models.Floor.floor_id == request.old_floor_id.strip())
     if not floor.first():
-        print("hi")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Floor với id {id} không tồn tại"
         )
     dicst_image_old = convert_image(floor.first().floor_images)
-    print(dicst_image_old)
     image_dict = json.loads(request.floor_images)
-    print(len(image_dict))
     if image_dict:
         for name, img in image_dict.items():
             if not 'api/floors/image/' in img:

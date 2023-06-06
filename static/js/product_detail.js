@@ -20,12 +20,19 @@ function loadProduct() {
             });
         const img_zoom = document.getElementById('main-img');
         img_zoom.src = `/${floorImgs[0][1]}`
-        const product_title = document.getElementById('floor-name');
-        product_title.textContent = data.floor_name
-        const card_text = document.getElementById('floor-description');
-        card_text.textContent = data.floor_description
+
+        const product_title = document.getElementById('floor-title');
+        product_title.textContent = `Chi tiết mã: ${data.floor_id}`
+
+        const product_name = document.getElementById('floor-name');
+        product_name.textContent = `Sàn gỗ ${data.floor_name}`
+
+        const product_description = document.getElementById('floor-description');
+        product_description.textContent = `Mô tả: ${data.floor_description}`
+
         const product_price = document.getElementById('floor-price');
-        product_price.textContent = `Giá: ${data.floor_price}`
+        product_price.textContent = `Giá: ${data.floor_price}.000 VND`
+
         const miniSlide = document.getElementsByClassName('mini-slide')[0];
         floorImgs.forEach((img, index) => {
             miniSlide.innerHTML += `

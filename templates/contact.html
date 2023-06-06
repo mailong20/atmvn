@@ -9,17 +9,18 @@
           integrity="sha512-ArqNC4fBxL47MykCwD+oMmb84ozVbXf4dwx7V32OzDr1GGazVktgDk1GtQvJtIyRvnKJNUgOZAC0hH3qVOl/Fg=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link href="{{url_for('static', path='/css/home.css')}}" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/aa319e5b40.js" crossorigin="anonymous"></script>
     <!-- Custom styles -->
     <style>
     body {
       background-color: #f8f9fa;
+      font-family: 'Arial', sans-serif;
     }
 
     .contact-info {
       max-width: 800px;
       margin: 0 auto;
       padding: 50px 0;
+      text-align: center;
     }
 
     .contact-logo {
@@ -41,6 +42,7 @@
       margin-top: 30px;
       margin-bottom: 10px;
       text-align: center;
+      color: #333;
     }
 
     p {
@@ -67,6 +69,62 @@
       margin: 0 10px;
     }
 
+    .contact-card {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .contact-card h2 {
+      margin-top: 0;
+      color: #333;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .contact-card ul {
+      margin-top: 10px;
+    }
+
+    .contact-card ul li {
+      margin-bottom: 5px;
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .contact-card ul li a {
+      color: #666;
+    }
+
+    .contact-card ul li a:hover {
+      color: #333;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .social-link {
+      display: inline-block;
+      background-color: #333;
+      color: #fff;
+      border-radius: 50%;
+      padding: 10px;
+      margin: 0 5px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .social-link i {
+      font-size: 1.2rem;
+    }
+
+    .social-link:hover {
+      background-color: #666;
+    }
 
 
     </style>
@@ -79,28 +137,50 @@
 
 <div class="container contact-info">
     <a href="/"><img src="/static/images/logo.jpg" alt="ATM Vietnam" class="contact-logo" height=></a>
-    <h2>Hotline</h2>
-    <ul>
-        <li>Số điện thoại: 0123456789</li>
-    </ul>
-    <h2>Địa chỉ</h2>
-    <ul>
-        <li>Trụ sở: 119 Nguyễn Công Triều Hoà An, Cẩm Lệ, Đà Nẵng</li>
-    </ul>
-    <h2>Gmail</h2>
-    <ul>
-        <li>Email: info@atmvietnam.com</li>
-    </ul>
-    <h2>Facebook</h2>
-    <ul>
-        <li><a href="https://www.facebook.com/profile.php?id=100063749636152&sk=about" target="_blank"><i class="fa-brands fa-facebook fa-2xl"></i></a></li>
-    </ul>
-    <h2>Chat</h2>
-    <ul>
-        <li>
-            <a href="https://m.me/100063749636152" target="_blank"><i class="fa-brands fa-facebook-messenger fa-2xl"></i></a>
-        </li>
-    </ul>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="contact-card">
+                <h2>Hotline</h2>
+                <ul>
+                    <li>Số điện thoại: 0827 6666 80 - 0936 43 42 66 (Mr. Tuấn)</li>
+                </ul>
+            </div>
+            <div class="contact-card">
+                <h2>Địa chỉ</h2>
+                <ul>
+                    <li>Trụ sở: 119 Nguyễn Công Triều Hoà An, Cẩm Lệ, Đà Nẵng</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="contact-card">
+                <h2>Gmail</h2>
+                <ul>
+                    <li>Gửi mail cho chúng tôi: <a href="mailto:anhtuan285241@gmail.com">Ở đây</a></li>
+                </ul>
+            </div>
+            <div class="contact-card">
+                <h2>Facebook</h2>
+                <ul>
+                    <li>Fanpage của chúng tôi: <a href="https://www.facebook.com/profile.php?id=100063749636152&sk=about" target="_blank">Ở đây</a></li>
+                </ul>
+            </div>
+            <div class="contact-card">
+                <h2>Chat</h2>
+                <ul>
+                    <li>
+                        Chat với chúng tôi: <a href="https://m.me/100063749636152" target="_blank">Ở đây</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="social-links">
+        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+    </div>
 </div>
 
 <!-- Bootstrap JS -->

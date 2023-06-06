@@ -17,7 +17,7 @@ async function openDialog(dialogId, floorId = None) {
         const rows = table_image.rows;
         while (rows.length > 2) {
             table_image.deleteRow(rows.length - 1);
-          }
+        }
         const getFloor = await fetch('http://' + host + '/api/floors/' + floorId, {
             headers: {
                 'Accept': 'application/json'
@@ -31,17 +31,17 @@ async function openDialog(dialogId, floorId = None) {
             const floorimgs = data.floor_images;
             const floorDescription = data.floor_description;
             const floorPrice = data.floor_price;
-           
+
             floorimglist = floorimgs.split('~');
-            floorImages = floorimglist.map(function(floorimg) {
+            floorImages = floorimglist.map(function (floorimg) {
                 const items = floorimg.split('|');
                 if (items.length === 2) {
                     return items;
                 }
-            }).filter(function(item) {
+            }).filter(function (item) {
                 return item !== undefined;
-              });
-        
+            });
+
 
             addImageFromEdit(dialogId, floorImages)
             const dialogEditFloor = document.getElementById(dialogId)
@@ -65,9 +65,9 @@ async function openDialog(dialogId, floorId = None) {
         const rows = table_image.rows;
         while (rows.length > 2) {
             table_image.deleteRow(rows.length - 1);
-          }
-            
-          
+        }
+
+
     }
 }
 
@@ -98,7 +98,17 @@ async function editFloor(editDialogId) {
 
     });
     const floorImageString = JSON.stringify(imageDict);
-
+    if (baseFloorId && floorName && floorImageString && floorDescription && floorPrice && floorTypeId && oldFloorId) {
+        console.log("Long", Object.keys(imageDict).length)
+        if (Object.keys(imageDict).length > 20) {
+            generateMessage('warning', 'Ảnh quá nhiều, lớn hơn 20 ảnh!');
+            return
+        }
+    } else {
+        // Code to execute if one or more variables are empty
+        generateMessage('warning', 'Một hoặc nhiều cột trống!');
+        return
+    }
     var raw = JSON.stringify({
         "floor_name": floorName,
         "floor_images": floorImageString,
@@ -196,7 +206,7 @@ async function addNewFloor(dialogId) {
 
     });
     const floorImageString = JSON.stringify(imageDict);
-  
+
     var raw = JSON.stringify({
         "floor_id": baseFloorId,
         "floor_name": floorName,
@@ -204,7 +214,17 @@ async function addNewFloor(dialogId) {
         "floor_description": floorDescription,
         "floor_price": floorPrice,
         "floor_type_id": floorTypeSelect
-      });
+    });
+    if (baseFloorId && floorName && floorImageString && floorDescription && floorPrice && floorTypeSelect) {
+        if (Object.keys(imageDict).length > 20) {
+            generateMessage('warning', 'Ảnh quá nhiều, lớn hơn 10 ảnh!');
+            return
+        }
+    } else {
+        // Code to execute if one or more variables are empty
+        generateMessage('warning', 'Một hoặc nhiều cột trống!');
+        return
+    }
     var myHeaders = new Headers();
     myHeaders.append("accept", "application/json");
     myHeaders.append("Content-Type", "application/json");

@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ATM Vietnam | Showroom</title>
     <!-- Bootstrap CSS -->
-    <script src="https://kit.fontawesome.com/aa319e5b40.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"
           integrity="sha512-ArqNC4fBxL47MykCwD+oMmb84ozVbXf4dwx7V32OzDr1GGazVktgDk1GtQvJtIyRvnKJNUgOZAC0hH3qVOl/Fg=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link href="..static/css/home.css" rel="stylesheet">
+    <link href="{{url_for('static', path='/css/home.css')}}" rel="stylesheet">
     <!-- Custom styles -->
     <style>
     body {
@@ -72,6 +71,25 @@
       height: auto;
     }
 
+    .carousel-control {
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      width: 50px;
+      height: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+
+    .carousel-control-next {
+      right: 10px;
+    }
+
+    .carousel-item:not(.active) {
+      display: none;
+    }
 
     </style>
 </head>
@@ -84,32 +102,30 @@
 <div class="container contact-info">
     <a href="/"><img src="/static/images/logo.jpg" alt="ATM Vietnam" class="contact-logo" height=""></a>
     <h1>Showroom</h1>
-    <h2>Địa chỉ</h2>
-    <ul>
-        <li>Showroom 1: Đường ABC, Quận XYZ, Thành phố HCM</li>
-    </ul>
-    <ul>
-        <li>Showroom 2: Đường DEF, Quận UVW, Thành phố HCM</li>
-    </ul>
-    <ul>
-        <li>Showroom 3: Đường GHI, Quận JKL, Thành phố HCM</li>
-    </ul>
     <div id="showroom-slideshow" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
+                <h2>Showroom 1</h2>
+                <ul>
+                    <li>Địa chỉ: 119 Nguyễn Công Triều Hoà An, Cẩm Lệ, Đà Nẵng</li>
+                </ul>
                 <img src="/static/images/showroom_1.jpg" alt="Showroom 1" class="showroom-image">
             </div>
             <div class="carousel-item">
+                <h2>Showroom 2</h2>
+                <ul>
+                    <li>Địa chỉ: 119 Nguyễn Công Triều Hoà An, Cẩm Lệ, Đà Nẵng</li>
+                </ul>
                 <img src="/static/images/showroom_2.jpg" alt="Showroom 2" class="showroom-image">
             </div>
             <div class="carousel-item">
-                <img src="/static/images/showroom_1.jpg" alt="Showroom 3" class="showroom-image">
+                <h2>Showroom 3</h2>
+                <ul>
+                    <li>Địa chỉ: 119 Nguyễn Công Triều Hoà An, Cẩm Lệ, Đà Nẵng</li>
+                </ul>
+                <img src="/static/images/showroom_3.jpg" alt="Showroom 3" class="showroom-image">
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#showroom-slideshow" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
         <button class="carousel-control-next" type="button" data-bs-target="#showroom-slideshow" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
@@ -118,8 +134,24 @@
 </div>
 
 <!-- Bootstrap JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"
-        integrity="sha512-JFyTpPn7m5dRiq1N4L4w/JhNlN4dZDzPcS9KXb8"
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Initialize the carousel
+    $('#showroom-slideshow').carousel();
+
+    // Handle next button click
+    $('.carousel-control-next').click(function() {
+        var activeItem = $('.carousel-item.active');
+        var nextItem = activeItem.next('.carousel-item');
+        if (nextItem.length === 0) {
+            nextItem = $('.carousel-item').first();
+        }
+        activeItem.removeClass('active');
+        nextItem.addClass('active');
+    });
+});
+</script>
 </body>
 </html>

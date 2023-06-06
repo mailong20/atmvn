@@ -15,9 +15,9 @@ class Floor(Base):
     __tablename__ = "floor"
 
     floor_id = Column(String(50), primary_key=True)
-    floor_name = Column(String(128))
-    floor_images = Column(String(1024))
-    floor_description = Column(String(256))
+    floor_name = Column(String(256))
+    floor_images = Column(String(2048))
+    floor_description = Column(String(1024))
     floor_price = Column(Integer)
     floor_type_id = Column(String(15), ForeignKey("floor_type.id"), )
 # ondelete="CASCADE")

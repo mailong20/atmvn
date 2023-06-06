@@ -12,7 +12,7 @@
 
 Maintain the directory  structure to execute the code
 ### The following command to be used to execute the program and live reload
- *uvicorn fastapi_crud_ui_jinja2:app --reload*
+ *uvicorn main:app --reload*
 ### To access  the application 
  * http://localhost:8000 *
 
@@ -22,4 +22,6 @@ https://www.youtube.com/watch?v=B5iV2emqOi8&t=177s
 
 ### Youtube Channel link
 https://www.youtube.com/channel/UCVyNVB6evazPGWWC83TeQxw
-uvicorn main2:app
+
+### To run
+python main.py

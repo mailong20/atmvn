@@ -10,7 +10,7 @@
     <link href="{{url_for('static', path='/css/home.css')}}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-  
+
 
     <script>
     function changTopNavbar(){
@@ -23,102 +23,30 @@
     
   });
 
+
+
     </script>
 </head>
 
 <body>
-  <div id="floor_id_detail" value="{{ floor_id }}"></div>
-  <nav id ="navbar" class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 999;" ">
-  
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">
-          <img src="/static/images/logo.jpg" alt="ATM Vietnam" style="max-height: 55px; max-width: 100%; border: none;">
-        </a>
-      </div>
-      <div class="navbar-menu">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/company">GIỚI THIỆU</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown"
-              data-bs-target="#dropdown-equipment" aria-expanded="false">
-              SẢN PHẨM
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1" id="dropdown-equipment">
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              DỊCH VỤ
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown2" id="dropdown-trees">
-              <li><a class="dropdown-item" href="/cungcap">Cung cấp</a></li>
-              <li><a class="dropdown-item" href="#">Lắp đặt và bảo hành</a></li>
-              <li><a class="dropdown-item" href="#">Sửa chữa</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              LIÊN LẠC
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown3" id="dropdown-trees">
-              <li><a class="dropdown-item" href="/showroom">Showroom</a></li>
-              <li><a class="dropdown-item" href="/contact">Liên hệ</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      <div class="navbar-right">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Menu</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown5" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              <i class="bi bi-person"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end w-100" aria-labelledby="navbarDropdown5">
-              <li><a class="dropdown-item" href="/login">Login</a></li>
-              <li><a class="dropdown-item" href="/signup">Sign up</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
+<div id="floor_id_detail" value="{{ floor_id }}"></div>
+<a href="javascript:history.back()" class="home-button"><i class="fas fa-arrow-left"></i>BACK</a>
 <div class="container">
-    <h1 class="product-title">Details</h1>
+    <h1 class="product-title" id="floor-title"></h1>
     <hr>
     <div class="row">
         <div class="col-md-7">
             <img src="" class="card-img-top product-image" alt="Floor Image" id="main-img">
         </div>
         <div class="col-md-5">
-            <h1 class="product-title" id="floor-name">Loading...</h1>
+            <h1 class="product-name" id="floor-name">Loading...</h1>
             <hr>
-            <p class="card-text" id="floor-description">Loading...</p>
+            <p class="product-description" id="floor-description">Loading...</p>
             <hr>
             <h5 class="product-price" id="floor-price">Loading...</h5>
         </div>
     </div>
-    <div class="mini-slide">
-        <!-- <img src="/static/images/swaran.jpg"
-             onclick="document.getElementById('main-img').src='/static/images/swaran.jpg'" alt="swaran">
-        <img src="/static/images/sabo.jpg" onclick="document.getElementById('main-img').src='/static/images/sabo.jpg'"
-             alt="sabo">
-        <img src="/static/images/avadol.jpg"
-             onclick="document.getElementById('main-img').src='/static/images/avadol.jpg'" alt="avadol"> -->
-    </div>
+    <div class="mini-slide"></div>
 </div>
 <!-- Image -->
 <script src="../static/js/product_detail.js"></script>
