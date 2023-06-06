@@ -14,7 +14,7 @@ os.makedirs(IMAGES_DIR, exist_ok=True)
 
 
 host = "0.0.0.0"
-port = 8000
+port = 80
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
 )
